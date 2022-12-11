@@ -1,46 +1,25 @@
 const { Permissions } = require("discord.js");
+//import enmap and open the enmap.sqlite database in ../data/tribes.sqlite
+const Enmap = require("enmap");
+const tribes = new Enmap({ name: "tribes" });
 
 exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
-  //Checks if user has permissions
-  if (!message.member.roles.cache.some(role => role.name === 'MOD ROLE NAME')) {
-    return await interaction.editReply("You do not have permission to create a tribe");
+  // CreateTribe Command
+  const name = interaction.options.getString("name");
+  const emoji = interaction.options.getString("emoji");
+  if (tribes.has(name)) { // Check if tribes exists
+    return interaction.reply("This tribe name is already taken");
+  } else {
+    tribes.set(name, emoji);
+    interaction.guild.roles.create({
+      data: {
+        name: name,
+        color: 0,
+        permissions: [],
+      },
+    });
+    return interaction.reply(`Tribe "**${name}**" with emoji **${emoji}** created`);
   }
-   
-
-  //Checks if bot has permissions
-  if (!interaction.guild.me.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) {
-    return await interaction.editReply("MISSING PERMISSION: MANAGE_CHANNELS");
-  }
-
-  if (!interaction.guild.me.permissions.has(Permissions.FLAGS.MANAGE_ROLES)) {
-    return await interaction.editReply("MISSING PERMISSION: MANAGE_ROLES");
-  }
-
- 
-  //Checks if tribe already exists
-  let roleName = interaction.options.getString('name');
-  let role = interaction.guild.roles.cache.find(x => x.name === roleName);
-  if (!typeof role === undefined) {
-    return await interaction.editReply(`Tribe: ${roleName} already exists!`);
-  }
-
-  //Creates tribe and assocciated chanel
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 };
 
 exports.commandData = {
@@ -69,6 +48,6 @@ exports.commandData = {
 // Set guildOnly to true if you want it to be available on guilds only.
 // Otherwise false is global.
 exports.conf = {
-  permLevel: "User",
+  permLevel: "Bot Admin",
   guildOnly: true
 };
