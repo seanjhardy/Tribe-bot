@@ -1,8 +1,10 @@
 const logger = require("./logger.js");
 const config = require("../config.js");
 const { settings } = require("./settings.js");
+const fs = require("fs");
 // Let's start by getting some useful functions that we'll use throughout
 // the bot, like logs and elevation features.
+
 
 /*
   PERMISSION LEVEL FUNCTION
@@ -96,4 +98,68 @@ process.on("unhandledRejection", err => {
   console.error(err);
 });
 
-module.exports = { getSettings, permlevel, awaitReply, toProperCase };
+/* Storage System Check */
+function FileSysCheck()
+{
+  if (!fs.existsSync('Data.json'))
+  {
+    console.log("FS: Could not read DATA! Attempting to Create DATA...");
+    fs.writeFile('Data.json', "{}", (err, result) =>
+    {
+      if (err)
+      {
+        console.error("FS: Failed to create DATA! Did you check your file permissions?");
+        process.abort();
+      }
+        
+    })
+  }
+}
+async function ReadData() {
+  FileSysCheck();
+  
+  let data = fs.readFileSync('Data.json', async (err, data) =>
+  {
+    if (err)
+    {
+      console.log("FS: Error Reading!");
+    }
+    return data;
+    
+  })
+  return data.toString();
+}
+function WriteData(datatowrite)
+{
+  FileSysCheck();
+  fs.writeFile('Data.json', datatowrite, (err, result) => {
+    if (err)
+    {
+      console.log("FS: Write Error!");
+    }
+  });
+}
+
+async function StoreTribe(Name, Emoji, Category, RoleID)
+{
+  var togethernow = {Emoji, Category, RoleID};
+  var tribedataraw = await ReadData();
+  var tribedata = JSON.parse(tribedataraw);
+  tribedata[Name] = togethernow;
+  WriteData(JSON.stringify(tribedata));
+}
+async function RemoveTribe(Name)
+{
+  var tribedataraw = await ReadData();
+  var tribedata = JSON.parse(tribedataraw);
+  var tribe = tribedata[Name]
+  // do things with tribe like deleting roles and reading values etc etc
+  // delete channels
+  /* TODO */
+  // use the catagory ID in order to delete the child channels
+  // category.children.forEach(channel => channel.delete());
+  // catagory.delete();
+  delete tribedata[Name];
+  WriteData(JSON.stringify(tribedata));
+}
+module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe };
