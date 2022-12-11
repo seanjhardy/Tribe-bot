@@ -1,14 +1,15 @@
 const { Permissions } = require("discord.js");
 
-const Enmap = require("enmap"); // Import Enmap
-const tribes = new Enmap({ name: "tribes" }); // Create an instance of Enmap - Tribes
+const { ReadData, StoreTribe } = require("../modules/functions");
+
 
 exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
   // CreateTribe Command
   const name = interaction.options.getString("name");
   const emoji = interaction.options.getString("emoji");
-
-  if (tribes.has(name)) { // Check if tribes exists with name or emoji
+  const tribedataraw = await ReadData()
+  const tribes = JSON.parse(tribedataraw)
+  if (name in tribes) { // Check if tribes exists with name or emoji
     return interaction.reply(`Tribe name or emoji is already taken.`);
   } else {
     //create a role called name
@@ -69,15 +70,11 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
     });
 
     const categoryID = category.id
-    const generalID = general.id
-    const vc1ID = vc1.id
+    // note to faderz: this isn't needed
+    // const generalID = general.id
+    // const vc1ID = vc1.id
 
-    // Add to Enmap - WILL BE CHANGED TO FS
-    tribes.set(name, {
-      name: name,
-      emoji: emoji,
-      roleID: roleID,
-    });
+    StoreTribe(name, emoji, categoryID, roleID);
     // Send message
     return interaction.reply(`Tribe "**${name}**" has been created.`);
   }
