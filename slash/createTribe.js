@@ -17,13 +17,12 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
     });
 
     const roleID = role.id;
-    console.log(emoji);
 
     // if emoji is null, categoryName is name else categoryName is emoji + name
     if (emoji == null) {
       var categoryName = name;
     } else {
-      var categoryName = emoji;
+      var categoryName = emoji + " | " + name;
     }
 
     // Create Category and Channels.
@@ -37,24 +36,6 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
         {
           id: roleID,
           allow: [Permissions.FLAGS.VIEW_CHANNEL],
-        },
-      ],
-    });
-    const announcements = await interaction.guild.channels.create("Announcements", {
-      type: "GUILD_TEXT",
-      parent: category,
-      permissionOverwrites: [
-        {
-          id: interaction.guild.id,
-          deny: [Permissions.FLAGS.VIEW_CHANNEL],
-        },
-        {
-          id: roleID,
-          allow: [Permissions.FLAGS.VIEW_CHANNEL],
-        },
-        {
-          id: roleID,
-          deny: [Permissions.FLAGS.SEND_MESSAGES],
         },
       ],
     });
@@ -87,7 +68,11 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
       ],
     });
 
-    // Add to Enmap
+    const categoryID = category.id
+    const generalID = general.id
+    const vc1ID = vc1.id
+
+    // Add to Enmap - WILL BE CHANGED TO FS
     tribes.set(name, {
       name: name,
       emoji: emoji,
