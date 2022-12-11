@@ -145,13 +145,7 @@ async function RemoveTribe(Name)
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
   var tribe = tribedata[Name]
-  // do things with tribe like deleting roles and reading values etc etc
-  // delete channels
-  /* TODO */
-  // use the catagory ID in order to delete the child channels
-  // category.children.forEach(channel => channel.delete());
-  // catagory.delete();
   delete tribedata[Name];
   WriteData(JSON.stringify(tribedata));
 }
-module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe };
+module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe, RemoveTribe };
