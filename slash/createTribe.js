@@ -54,7 +54,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
         },
       ],
     });
-    const vc1 = await interaction.guild.channels.create("VC 1", {
+    const vc1 = await interaction.guild.channels.create("Voice Chat", {
       type: "GUILD_VOICE",
       parent: category,
       permissionOverwrites: [
