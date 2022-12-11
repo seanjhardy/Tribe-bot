@@ -2,18 +2,18 @@ const { Permissions } = require("discord.js");
 
 exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
   //Checks if user has permissions
-  if (!message.member.roles.cache.some(role => role.name === 'MOD ROLE NAME')) {
-    return await interaction.editReply("You do not have permission to create a tribe");
+  if (!interaction.member.roles.cache.some(role => role.name === 'MOD ROLE NAME')) {
+    return await interaction.reply("You do not have permission to create a tribe");
   }
    
 
   //Checks if bot has permissions
   if (!interaction.guild.me.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) {
-    return await interaction.editReply("MISSING PERMISSION: MANAGE_CHANNELS");
+    return await interaction.reply("MISSING PERMISSION: MANAGE_CHANNELS");
   }
 
   if (!interaction.guild.me.permissions.has(Permissions.FLAGS.MANAGE_ROLES)) {
-    return await interaction.editReply("MISSING PERMISSION: MANAGE_ROLES");
+    return await interaction.reply("MISSING PERMISSION: MANAGE_ROLES");
   }
 
  
@@ -21,11 +21,11 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   let roleName = interaction.options.getString('name');
   let role = interaction.guild.roles.cache.find(x => x.name === roleName);
   if (!typeof role === undefined) {
-    return await interaction.editReply(`Tribe: ${roleName} already exists!`);
+    return await interaction.reply(`Tribe: ${roleName} already exists!`);
   }
 
   //Creates tribe and assocciated chanel
-  
+  return await interaction.reply(`Error Handling Complete!`);
   
   
   
