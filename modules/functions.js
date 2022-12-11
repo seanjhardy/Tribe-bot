@@ -132,9 +132,9 @@ function WriteData(datatowrite)
   });
 }
 
-async function StoreTribe(Name, Emoji, Category, RoleID)
+async function StoreTribe(Name, Emoji, Category, RoleID, Limit)
 {
-  var togethernow = {Emoji, Category, RoleID};
+  var togethernow = {Emoji, Category, RoleID, Limit};
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
   tribedata[Name] = togethernow;
