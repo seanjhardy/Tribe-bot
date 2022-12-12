@@ -7,13 +7,14 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   // CreateTribe Command
   const name = interaction.options.getString("name");
   const emoji = interaction.options.getString("emoji");
-  const limit = interaction.options.getString("limit")
+  const limit = interaction.options.getInteger("limit")
   const tribedataraw = await ReadData();
   console.log(tribedataraw);
   const tribes = JSON.parse(tribedataraw);
   if (name in tribes) { // Check if tribes exists with name or emoji
     return interaction.reply(`Tribe name or emoji is already taken.`);
   } else {
+    
     //create a role called name
     const role = await interaction.guild.roles.create({
         name: interaction.options.getString("name"),
@@ -102,7 +103,7 @@ exports.commandData = {
 {
   name:"limit",
   description:"The limit of users",
-  type:3,
+  type:4,
   required:false
 }
   ],
