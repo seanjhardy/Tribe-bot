@@ -1,25 +1,51 @@
 const { Permissions } = require("discord.js");
 
 const { ReadData, StoreTribe } = require("../modules/functions");
-const { Roles } = require(__dirname + '/../config.js');
+const { Roles } = require(__dirname + "/../config.js");
 
 exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
-  // If user executing command is not a chief, reply with message. If user is a chief, check if user already has tribeMod role.
+  // JSON file
+  var tribedataraw = await ReadData();
+  var tribedata = JSON.parse(tribedataraw);
+
+  // Check if executor has chief role.
   if (!interaction.member.roles.cache.has(Roles.chiefRoleID)) {
-    return interaction.reply(`You are not a chief.`);
+    return interaction.reply("You are not a chief.");
   } else {
+    // Get user ID and their tribe.
     userPromote = interaction.options.get("user").value;
     userPromoteID = userPromote.replace(/\D/g, "");
+    // userRoles containing all of user's role names in an array.
+    userRoles = interaction.guild.members.cache.get(userPromoteID).roles.cache.map(r => r.name);
+
+    // Get the roles of executor.
+    executorRoles = interaction.member.roles.cache.map(r => r.name);
+
+    // Find common roles between executor and user.
+    commonRoles = userRoles.filter(value => executorRoles.includes(value));
     
-    // Check if user with user ID already has tribeMod role.
-    if (interaction.guild.members.cache.get(userPromoteID).roles.cache.has(Roles.tribeModRoleID)) {
-      return interaction.reply(`${userPromote} is already a tribe mod.`);
-    } else {
-      // Promote user to tribe mod.
-      interaction.guild.members.cache.get(userPromoteID).roles.add(Roles.tribeModRoleID);
-      return interaction.reply(`${userPromote} has been promoted to tribe mod.`);
+    // Check if any of common roles are in tribedata.
+    var tribe = "";
+    for (var i = 0; i < commonRoles.length; i++) {
+      if (tribedata[commonRoles[i]]) {
+        tribe = commonRoles[i];
+        break;
+      }
     }
-    
+    console.log("Tribe: " + tribe);
+    // Check if user is in the tribe.
+    if (tribe == "") {
+      return interaction.reply(`${userPromote} is not in your tribe.`);
+    } else {
+      // Check if user with user ID already has tribeMod role.
+      if (interaction.guild.members.cache.get(userPromoteID).roles.cache.has(Roles.tribeModRoleID)) {
+        return interaction.reply(`${userPromote} already has tribe mod role.`);
+      } else {
+        // Add tribe mod role from user.
+        interaction.guild.members.cache.get(userPromoteID).roles.add(Roles.tribeModRoleID);
+        return interaction.reply(`${userPromote} has been promoted to tribe moderator.`);
+      }
+    }
   }
 };
 
@@ -28,12 +54,12 @@ exports.commandData = {
   description: "Promote a user to tribe mod.",
   options: [
 
-{
-    name:"user",
-    description:"Tag/ping the user you want to promote.",
-    type:3,
-    required:true
-}
+    {
+      name:"user",
+      description:"Tag/ping the user you want to promote.",
+      type:3,
+      required:true
+    }
   ],
   defaultPermission: true,
 };
