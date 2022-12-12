@@ -7,7 +7,9 @@ exports.run = async (client, interaction) => {
     const name = interaction.options.getString("name");
     const tribedataraw = await ReadData();
     const tribes = JSON.parse(tribedataraw);
-    if (name in tribes == false)
+
+    if (!(name in tribes))
+
     {
         return interaction.reply("That Tribe Doesn't Exist!");
     }
