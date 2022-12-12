@@ -3,10 +3,10 @@ const { Intents } = require("discord.js");
 /* config */
 const config = {
   // Bot Admins, level 9 by default. Array of user ID strings.
-  "admins": ["104633660682043392", "948670341687951420"],
+  "admins": ["104633660682043392", "1051522140211511429"],
   "Roles": {
-    "chiefRoleID": "1051776922360754229",
-    "tribeModRoleID": "1051616164041736233",
+    "chiefRoleID": "1051521264029802506",
+    "tribeModRoleID": "1051522140211511429",
     "GuildID": "1051261955203137617"
   },
 
