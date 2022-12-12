@@ -9,7 +9,7 @@ exports.run = async (client, interaction) => {
   //Checks if command user is a tribe mod
   if (
     !interaction.member.roles.cache.find(
-      (r) => r.id === process.env.TRIBEMODROLEID
+      (r) => r.id === process.env.TribeModRole
     )
   ) {
     return await interaction.reply(
@@ -20,12 +20,12 @@ exports.run = async (client, interaction) => {
   //Checks if target is a tribe mod
   const targetID = interaction.options.getUser("target").id;
   const target = interaction.guild.members.cache.get(targetID);
-  if (target.roles.cache.has(process.env.TRIBEMODROLEID)) {
+  if (target.roles.cache.has(process.env.TribeModRole)) {
     return await interaction.reply(`Target user is a tribe moderator!`);
   }
 
   //Checks if target is a tribe chief
-  if (target.roles.cache.has(process.env.TRIBECHIEFROLEID)) {
+  if (target.roles.cache.has(process.env.ChiefRole)) {
     return await interaction.reply(`Target user is a tribe chief!`);
   }
 
