@@ -154,4 +154,4 @@ async function RemoveTribe(Name)
   delete tribedata[Name];
   WriteData(JSON.stringify(tribedata));
 }
-module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe };
+module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe, RemoveTribe };

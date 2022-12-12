@@ -8,6 +8,8 @@ const config = {
   // Bot Support, level 8 by default. Array of user ID strings
   "support": [],
 
+
+  
   /*
   * Intents the bot needs.
   * By default GuideBot needs Guilds, Guild Messages and Direct Messages to work.
