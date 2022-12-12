@@ -1,7 +1,7 @@
 const { Permissions } = require("discord.js");
 
 const { ReadData, StoreTribe } = require("../modules/functions");
-const { Roles } = require(__dirname + "/../config.js");
+require("dotenv").config();
 
 exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
   // JSON file
@@ -9,14 +9,14 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   var tribedata = JSON.parse(tribedataraw);
 
   // Check if executor has chief role.
-  if (!interaction.member.roles.cache.has(Roles.chiefRoleID)) {
+  if (!interaction.member.roles.cache.has(process.env.ChiefRole)) {
     return interaction.reply("You are not a chief.");
   } else {
     // Get user ID and their tribe.
-    userPromote = interaction.options.get("user").value;
-    userPromoteID = userPromote.replace(/\D/g, "");
+    userDemote = interaction.options.get("user").value;
+    userDemoteID = userDemote.replace(/\D/g, "");
     // userRoles containing all of user's role names in an array.
-    userRoles = interaction.guild.members.cache.get(userPromoteID).roles.cache.map(r => r.name);
+    userRoles = interaction.guild.members.cache.get(userDemoteID).roles.cache.map(r => r.name);
 
     // Get the roles of executor.
     executorRoles = interaction.member.roles.cache.map(r => r.name);
@@ -35,15 +35,15 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
     console.log("Tribe: " + tribe)
     // Check if user is in the tribe.
     if (tribe == "") {
-      return interaction.reply(`${userPromote} is not in your tribe.`);
+      return interaction.reply(`${userDemote} is not in your tribe.`);
     } else {
       // Check if user with user ID already has tribeMod role.
-      if (interaction.guild.members.cache.get(userPromoteID).roles.cache.has(Roles.tribeModRoleID)) {
-        interaction.guild.members.cache.get(userPromoteID).roles.remove(Roles.tribeModRoleID);
-        return interaction.reply(`${userPromote} has been demoted from tribe mod.`);
+      if (interaction.guild.members.cache.get(userDemoteID).roles.cache.has(process.env.TribeModRole)) {
+        interaction.guild.members.cache.get(userDemoteID).roles.remove(process.env.TribeModRole);
+        return interaction.reply(`${userDemote} has been demoted from tribe mod.`);
       } else {
         // Remove tribe mod role from user.
-        return interaction.reply(`${userPromote} doesn't have tribe mod role.`);
+        return interaction.reply(`${userDemote} doesn't have tribe mod role.`);
       }
     }
   }

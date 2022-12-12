@@ -1,7 +1,7 @@
 const { Permissions } = require("discord.js");
 
 const { ReadData, StoreTribe } = require("../modules/functions");
-const { Roles } = require(__dirname + "/../config.js");
+require("dotenv").config();
 
 exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
   // JSON file
@@ -9,7 +9,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   var tribedata = JSON.parse(tribedataraw);
 
   // Check if executor has chief role.
-  if (!interaction.member.roles.cache.has(Roles.chiefRoleID)) {
+  if (!interaction.member.roles.cache.has(process.env.ChiefRole)) {
     return interaction.reply("You are not a chief.");
   } else {
     // Get user ID and their tribe.
@@ -38,11 +38,11 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
       return interaction.reply(`${userPromote} is not in your tribe.`);
     } else {
       // Check if user with user ID already has tribeMod role.
-      if (interaction.guild.members.cache.get(userPromoteID).roles.cache.has(Roles.tribeModRoleID)) {
+      if (interaction.guild.members.cache.get(userPromoteID).roles.cache.has(process.env.TribeModRole)) {
         return interaction.reply(`${userPromote} already has tribe mod role.`);
       } else {
         // Add tribe mod role from user.
-        interaction.guild.members.cache.get(userPromoteID).roles.add(Roles.tribeModRoleID);
+        interaction.guild.members.cache.get(userPromoteID).roles.add(process.env.TribeModRole);
         return interaction.reply(`${userPromote} has been promoted to tribe moderator.`);
       }
     }
