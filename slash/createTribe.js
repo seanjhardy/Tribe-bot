@@ -7,7 +7,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   // CreateTribe Command
   const name = interaction.options.getString("name");
   const emoji = interaction.options.getString("emoji");
-  const limit = interaction.options.getInteger("limit")
+  
   const tribedataraw = await ReadData();
   console.log(tribedataraw);
   const tribes = JSON.parse(tribedataraw);
@@ -77,7 +77,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
     // const generalID = general.id
     // const vc1ID = vc1.id
 
-    StoreTribe(name, emoji, categoryID, roleID, limit);
+    StoreTribe(name, emoji, categoryID, roleID);
     // Send message
     return interaction.reply(`Tribe "**${name}**" has been created.`);
   }
@@ -99,12 +99,6 @@ exports.commandData = {
     description:"**OPTIONAL** the emoji of the tribe you want to create",
     type:3,
     required:false
-},
-{
-  name:"limit",
-  description:"The limit of users",
-  type:4,
-  required:false
 }
   ],
   defaultPermission: true,
