@@ -6,10 +6,10 @@ exports.run = async (client, interaction) =>
 {
     const embed = new MessageEmbed()
         .setColor(0x0099FF)
-        .setDescription("monologue about how tribes work here")
+        .setDescription("Click here to join a TRIBE, meet your brotherhood, and compete to be the strongest of them all!")
         .setThumbnail("https://media.discordapp.net/attachments/1051261955882623008/1051878553899245638/tribes.png");
     const row = new MessageActionRow()
-        .addComponents(new MessageButton().setLabel('Join Tribe').setStyle('PRIMARY').setCustomId("TribeBut"));
+        .addComponents(new MessageButton().setLabel('JOIN TRIBE').setStyle('PRIMARY').setCustomId("TribeBut"));
     const channelid = interaction.channelId;
     await interaction.guild.channels.fetch(channelid).then(async channelo => {
         channelo.send({embeds: [embed], components: [row]})
