@@ -23,6 +23,7 @@ exports.run = async (client, interaction) => {
     .addField("📝 Users", `${client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b).toLocaleString()}`, true)
     .addField("🥇 Tribes", `${numTribes}`, true)
     .addField("👓 Limit", `${tribes.Limit}`, true)
+    .setFooter("Hamza's Cult • Tribe System", "https://cdn.discordapp.com/icons/811270187843977236/5a7ac443be8f92675def615e470ac4a6.webp?size=96")
     .setThumbnail("https://media.discordapp.net/attachments/1051261955882623008/1051878553899245638/tribes.png");
 
   // return the embed to user
