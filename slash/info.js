@@ -13,8 +13,6 @@ exports.run = async (client, interaction) => {
   const duration = durationFormatter.format(client.uptime);
 
   const numTribes = Object.keys(tribes).length - 1;  // Store the number of items in tribes
-  console.log(numTribes);
-  // Create an embed with 2 inline fields
   // Create an embed with 2 inline fields
   const embed = new MessageEmbed()
     .setColor(4690898)
