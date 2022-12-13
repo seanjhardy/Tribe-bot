@@ -16,13 +16,13 @@ exports.run = async (client, interaction) => {
   // Create an embed with 2 inline fields
   const embed = new MessageEmbed()
     .setColor(4690898)
-    .setTitle("Bot Information")
-    .addField("Ping 🏓", `${Math.round(client.ws.ping)}ms`, true)
-    .addField("Uptime ⏲ ", `${duration}`, true)
-    .addField("Memory Usage 🗄", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
-    .addField("Users 📝", `${client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b).toLocaleString()}`, true)
-    .addField("Tribes 🥇", `${numTribes}`, true)
-    .addField("Limit 👓", `${tribes.Limit}`, true)
+    .setTitle("Information")
+    .addField("🏓 Ping", `${Math.round(client.ws.ping)}ms`, true)
+    .addField("⏲ Uptime", `${duration}`, true)
+    .addField("🗄 Memory Usage", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
+    .addField("📝 Users", `${client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b).toLocaleString()}`, true)
+    .addField("🥇 Tribes", `${numTribes}`, true)
+    .addField("👓 Limit", `${tribes.Limit}`, true)
     .setThumbnail("https://media.discordapp.net/attachments/1051261955882623008/1051878553899245638/tribes.png");
 
   // return the embed to user
