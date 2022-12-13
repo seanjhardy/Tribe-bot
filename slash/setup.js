@@ -33,7 +33,6 @@ exports.run = async (client, interaction) =>
                 roleids[0] = value.RoleID;
             }
         }
-        console.log(roleids)
         if (roleids[0] === undefined)
         {
             return i.followUp({content: "There is no Tribes to Join!", ephemeral: true})
@@ -52,20 +51,17 @@ exports.run = async (client, interaction) =>
         const allEqual = arr => arr.every( v => v === arr[0] )
         if (allEqual(membercounts))
         {
-            console.log("they are all equal");
             const random = roleids[Math.floor(Math.random() * roleids.length)];
             await i.member.roles.add(random);
         }
         else
         {
-            console.log("they are not all equal");
             const smallest = Math.min(...membercounts);
-            console.log(smallest);
             const index = membercounts.indexOf(smallest);
             await i.member.roles.add(roleids[index]);
         }
     })
-    collector.on('end', collected => console.log("collected tribe button"));
+    collector.on('end', collected => {});
 };
 exports.commandData = {
     name: "setup",
