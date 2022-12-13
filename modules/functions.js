@@ -105,6 +105,7 @@ async function FileSysCheck()
       }
       
     })
+    SetLimit(-1)
   }
 }
 async function ReadData() {
