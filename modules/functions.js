@@ -160,7 +160,7 @@ async function SetLimit(int)
 
 async function SetTribeCooldown(userID, timestamp)
 {
-  let cooldownObject = {releaseTime: Math.floor(timestamp + 604800)}
+  let cooldownObject = {banishTime: timestamp}
   let tribeDataRaw = await ReadData();
   let tribedata = JSON.parse(tribeDataRaw);
   tribedata.cooldown[userID] = cooldownObject;
@@ -172,7 +172,7 @@ async function GetTribeCooldown(userID)
 {
   let tribeDataRaw = await ReadData();
   let tribedata = JSON.parse(tribeDataRaw);
-  let releaseDate = tribedata.cooldown[userID].releaseTime
+  let releaseDate = tribedata.cooldown[userID].banishTime
   return releaseDate
 }
 
