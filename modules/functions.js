@@ -171,10 +171,16 @@ async function SetTribeCooldown(userID, timestamp)
 
 async function GetTribeCooldown(userID)
 {
-  let tribeDataRaw = await ReadData();
-  let tribedata = JSON.parse(tribeDataRaw);
-  let releaseDate = tribedata.cooldown[userID].banishTime
-  return releaseDate
+ try {
+   let tribeDataRaw = await ReadData();
+   let tribedata = JSON.parse(tribeDataRaw);
+   let releaseDate = tribedata.cooldown[userID].banishTime
+   return releaseDate
+ } catch (error){
+   return null
+ }
+ 
+ 
 }
 
 module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe, RemoveTribe, SetLimit, SetTribeCooldown, GetTribeCooldown };
