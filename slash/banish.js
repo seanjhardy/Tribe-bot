@@ -1,5 +1,5 @@
 const { Permissions, Guild, ChannelManager } = require("discord.js");
-const { ReadData } = require("../modules/functions.js");
+const { ReadData, SetTribeCooldown } = require("../modules/functions.js");
 
 exports.run = async (client, interaction) => {
   const tribeData = JSON.parse(await ReadData());
@@ -36,7 +36,7 @@ exports.run = async (client, interaction) => {
   //Checks each user role for a match in the tribe store
   userRolesArray.forEach((roleID, arrayIndex) => {
     tribeNames.forEach((tribeName, arrayIndex) => {
-     const tribeID = tribeData[tribeName].RoleID;
+      const tribeID = tribeData[tribeName].RoleID;
 
       if (roleID === tribeID) {
         userTribe = tribeID;
@@ -59,31 +59,23 @@ exports.run = async (client, interaction) => {
     });
   });
 
-
-  
-  if (userTribe === targetTribe) {
-    const tribeRole = interaction.guild.roles.cache.get(targetTribe);
-    target.roles.remove(tribeRole)
-    return await interaction.reply(`User banished from tribe`);
-
-
-
-  } else {
-    return await interaction.reply(`You are not from the same tribe as your target`);
+  //Checks if target has no tribe
+  if (!targetTribe) {
+    return await interaction.reply("Target does not belong to a tribe");
   }
 
-  
-
+  //Banishes target from the tribe
+  if (userTribe === targetTribe) {
+    const tribeRole = interaction.guild.roles.cache.get(targetTribe);
+    target.roles.remove(tribeRole);
+    await SetTribeCooldown(targetID, Math.floor(Date.now() / 1000));
+    return await interaction.reply(`User banished from tribe`);
+  } else {
+    return await interaction.reply(
+      `You are not from the same tribe as your target`
+    );
+  }
 };
-
-
-
-
-
-
-
-
-
 
 exports.commandData = {
   name: "banish",

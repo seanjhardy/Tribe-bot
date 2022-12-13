@@ -105,7 +105,6 @@ async function FileSysCheck()
       }
       
     })
-    SetLimit(-1);
   }
 }
 async function ReadData() {
@@ -122,6 +121,7 @@ async function ReadData() {
   })
   return data.toString();
 }
+
 async function WriteData(datatowrite)
 {
   await FileSysCheck();
@@ -157,5 +157,24 @@ async function SetLimit(int)
   tribedata.Limit = int
   await WriteData(JSON.stringify(tribedata))
 }
-module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe, RemoveTribe, SetLimit };
+
+async function SetTribeCooldown(userID, timestamp)
+{
+  let cooldownObject = {releaseTime: Math.floor(timestamp + 604800)}
+  let tribeDataRaw = await ReadData();
+  let tribedata = JSON.parse(tribeDataRaw);
+  tribedata.cooldown[userID] = cooldownObject;
+  await WriteData(JSON.stringify(tribedata));
+  return 
+}
+
+async function GetTribeCooldown(userID)
+{
+  let tribeDataRaw = await ReadData();
+  let tribedata = JSON.parse(tribeDataRaw);
+  let releaseDate = tribedata.cooldown[userID].releaseTime
+  return releaseDate
+}
+
+module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe, RemoveTribe, SetLimit, SetTribeCooldown, GetTribeCooldown };
 
