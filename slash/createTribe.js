@@ -1,7 +1,7 @@
 const { Permissions } = require("discord.js");
 
 const { ReadData, StoreTribe } = require("../modules/functions");
-
+require("dotenv").config();
 
 exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
   // CreateTribe Command
@@ -76,8 +76,26 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
     // note to faderz: this isn't needed
     // const generalID = general.id
     // const vc1ID = vc1.id
+    // note from faderz: ok thank you 
 
+    // Store tribe data
     StoreTribe(name, emoji, categoryID, roleID);
+
+    // Log to log channel
+    // Send log as embed to env log channel.
+    const embed = {
+      "title": "createTribe",
+      "description": `**User:** ${interaction.user}\n**Tribe:** ${name}`,
+      "color": 4690898, // 16711680 = red for moderation logs | 4690898 = pink/purplish for other commands
+      "timestamp": new Date(),
+      "footer": {
+        "icon_url": "https://cdn.discordapp.com/icons/811270187843977236/5a7ac443be8f92675def615e470ac4a6.webp?size=96",
+        "text": "Hamza's Cult"
+      }
+    };
+    client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
+
+
     // Send message
     return interaction.reply(`Tribe "**${name}**" has been created.`);
   }
