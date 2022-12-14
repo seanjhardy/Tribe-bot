@@ -40,6 +40,23 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
       // Check if user with user ID already has tribeMod role.
       if (interaction.guild.members.cache.get(userDemoteID).roles.cache.has(process.env.TribeModRole)) {
         interaction.guild.members.cache.get(userDemoteID).roles.remove(process.env.TribeModRole);
+        
+        // Send log as embed to env log channel.
+        const embed = {
+          "title": "Demotion",
+          "description": `**User:** ${userDemote}\n**Tribe:** ${tribe}\n**Demoted by:** ${interaction.user}`,
+          "color": 16711680, // 16711680 = red for moderation logs | 4690898 = pink/purplish for other commands
+          "timestamp": new Date(),
+          "footer": {
+            "icon_url": "https://cdn.discordapp.com/icons/811270187843977236/5a7ac443be8f92675def615e470ac4a6.webp?size=96",
+            "text": "Hamza's Cult"
+          }
+        };
+        client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
+  
+        // Remove tribe mod role from user.
+        
+
         return interaction.reply(`${userDemote} has been demoted from tribe mod.`);
       } else {
         // Remove tribe mod role from user.

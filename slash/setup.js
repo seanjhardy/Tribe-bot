@@ -1,3 +1,4 @@
+
 const {
   Permissions,
   MessageEmbed,
@@ -43,10 +44,12 @@ exports.run = async (client, interaction) => {
     filter,
   });
   collector.on("collect", async (i) => {
+
     //i.user.id to get user id
     await i.deferUpdate();
     const tribedataraw = await ReadData();
     const tribedata = JSON.parse(tribedataraw);
+
 
     //Checks if user is in a cooldown from joining tribes
     let tribeCooldown = await GetTribeCooldown(i.user.id);
@@ -154,6 +157,7 @@ exports.run = async (client, interaction) => {
   collector.on("end", (collected) => console.log("collected tribe button"));
 };
 
+
 exports.commandData = {
   name: "setup",
   description: "Sends the Tribe Join Message",
@@ -164,5 +168,6 @@ exports.commandData = {
 // Otherwise false is global.
 exports.conf = {
   permLevel: "Bot Admin",
-  guildOnly: true,
+guildOnly: true
+
 };

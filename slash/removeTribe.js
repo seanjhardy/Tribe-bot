@@ -1,6 +1,7 @@
 const { Permissions, Guild, ChannelManager } = require("discord.js");
 
 const { ReadData, StoreTribe, RemoveTribe } = require("../modules/functions");
+require("dotenv").config();
 
 
 exports.run = async (client, interaction) => {
@@ -22,6 +23,20 @@ exports.run = async (client, interaction) => {
         await interaction.guild.channels.fetch(catagoryid).then(channels => {console.log(channels.children.forEach(channel => {channel.delete()}));})
         await interaction.guild.channels.fetch(catagoryid).then(channels => channels.delete())
         RemoveTribe(name);
+
+        // log to log channel
+        const embed = {
+          "title": "removeTribe",
+          "description": `**User:** ${interaction.user}\n**Tribe:** ${name}`,
+          "color": 4690898, // 16711680 = red for moderation logs | 4690898 = pink/purplish for other commands
+          "timestamp": new Date(),
+          "footer": {
+            "icon_url": "https://cdn.discordapp.com/icons/811270187843977236/5a7ac443be8f92675def615e470ac4a6.webp?size=96",
+            "text": "Hamza's Cult"
+          }
+        };
+        client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
+        // return reply to user
         return interaction.reply("Successfully Deleted The Tribe!");
     }
 };

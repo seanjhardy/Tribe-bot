@@ -43,6 +43,21 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
       } else {
         // Add tribe mod role from user.
         interaction.guild.members.cache.get(userPromoteID).roles.add(process.env.TribeModRole);
+
+        // Send log as embed to env log channel.
+        const embed = {
+          "title": "Promotion",
+          "description": `**User:** ${userPromote}\n**Tribe:** ${tribe}\n**Demoted by:** ${interaction.user}`,
+          "color": 16711680, // 16711680 = red for moderation logs | 4690898 = pink/purplish for other commands
+          "timestamp": new Date(),
+          "footer": {
+            "icon_url": "https://cdn.discordapp.com/icons/811270187843977236/5a7ac443be8f92675def615e470ac4a6.webp?size=96",
+            "text": "Hamza's Cult"
+          }
+        };
+        client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
+
+        // Reply to user.
         return interaction.reply(`${userPromote} has been promoted to tribe moderator.`);
       }
     }

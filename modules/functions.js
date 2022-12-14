@@ -138,7 +138,7 @@ async function WriteData(datatowrite)
 
 async function StoreTribe(Name, Emoji, Category, RoleID)
 {
-  var togethernow = {Emoji, Category, RoleID};
+  var togethernow = {Emoji, Category, RoleID, Points: 0};
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
   tribedata.tribes[Name] = togethernow;
@@ -160,6 +160,7 @@ async function SetLimit(int)
   tribedata.Limit = int
   await WriteData(JSON.stringify(tribedata))
 }
+
 
 async function SetTribeCooldown(userID, timestamp, tribeID)
 {
@@ -192,4 +193,23 @@ async function GetTribeCooldown(userID)
 
 
 module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe, RemoveTribe, SetLimit, SetTribeCooldown, GetTribeCooldown };
+
+
+async function AddPoints(Name, amount)
+{
+  var tribedataraw = await ReadData();
+  var tribedata = JSON.parse(tribedataraw);
+  var tribe = tribedata[Name]
+  tribe.Points += amount;
+  await WriteData(JSON.stringify(tribedata));
+}
+async function MinusPoints(Name, amount)
+{
+  var tribedataraw = await ReadData();
+  var tribedata = JSON.parse(tribedataraw);
+  var tribe = tribedata[Name]
+  tribe.Points -= amount;
+  await WriteData(JSON.stringify(tribedata));
+}
+module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe, RemoveTribe, SetLimit, AddPoints, MinusPoints };
 
