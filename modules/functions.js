@@ -107,20 +107,22 @@ async function FileSysCheck()
     })
     SetLimit(-1);
   }
+
 }
 async function ReadData() {
   await FileSysCheck();
   
-  let data = fs.readFileSync('Data.json', async (err, data) =>
+  return fs.readFileSync('Data.json', 'utf8', async (err, data) =>
   {
     if (err)
     {
       console.log("FS: Error Reading!");
     }
+
     return data;
     
   })
-  return data.toString();
+
 }
 
 async function WriteData(datatowrite)
@@ -159,11 +161,13 @@ async function SetLimit(int)
   await WriteData(JSON.stringify(tribedata))
 }
 
-async function SetTribeCooldown(userID, timestamp)
+async function SetTribeCooldown(userID, timestamp, tribeID)
 {
+  let banishObject = {banishTime: timestamp, userID: userID, tribeID: tribeID}
   let cooldownObject = {banishTime: timestamp}
   let tribeDataRaw = await ReadData();
   let tribedata = JSON.parse(tribeDataRaw);
+  tribedata.banishes.push(banishObject)
   tribedata.cooldown[userID] = cooldownObject;
   await WriteData(JSON.stringify(tribedata));
   return 
@@ -182,6 +186,10 @@ async function GetTribeCooldown(userID)
  
  
 }
+
+
+
+
 
 module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe, RemoveTribe, SetLimit, SetTribeCooldown, GetTribeCooldown };
 

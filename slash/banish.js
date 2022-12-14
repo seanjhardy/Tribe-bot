@@ -1,8 +1,9 @@
 const { Permissions, Guild, ChannelManager } = require("discord.js");
-const { ReadData, SetTribeCooldown } = require("../modules/functions.js");
+const { ReadData, SetTribeCooldown, AddBanishRecord } = require("../modules/functions.js");
 
 exports.run = async (client, interaction) => {
-  const tribeData = JSON.parse(await ReadData());
+  const tribedataraw = await ReadData()
+  const tribeData = JSON.parse(tribedataraw);
   const tribeNames = Object.keys(tribeData.tribes);
   let userTribe;
   let targetTribe;
@@ -68,7 +69,15 @@ exports.run = async (client, interaction) => {
   if (userTribe === targetTribe) {
     const tribeRole = interaction.guild.roles.cache.get(targetTribe);
     target.roles.remove(tribeRole);
-    await SetTribeCooldown(targetID, Math.floor(Date.now() / 1000));
+   console.log(targetTribe)
+    await SetTribeCooldown(targetID, Math.floor(Date.now() / 1000, ), targetTribe);
+
+
+    
+
+
+
+
     return await interaction.reply(`User banished from tribe`);
   } else {
     return await interaction.reply(

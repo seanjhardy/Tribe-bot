@@ -65,6 +65,19 @@ exports.run = async (client, interaction) => {
       }
     }
 
+
+    //Checks if user is banned from joining a tribe
+    let userBanishArray = tribedata.banishes.filter(x => x.userID.includes(i.user.id));
+    if (userBanishArray.length >= 3) {
+      return i.followUp({
+        content: `You are banned from joining tribes at this time!`,
+        ephemeral: true,
+      });
+    }
+
+
+
+
     //Gets a headcount for every tribe
     const roleids = Object.entries(tribedata.tribes).map(
       ([key, value]) => value.RoleID
