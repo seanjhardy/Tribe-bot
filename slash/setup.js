@@ -49,7 +49,7 @@ exports.run = async (client, interaction) => {
     const tribedata = JSON.parse(tribedataraw);
 
     //Checks if user is in a cooldown from joining tribes
-    let tribeCooldown = await GetTribeCooldown(interaction.user.id);
+    let tribeCooldown = await GetTribeCooldown(i.user.id);
     if (tribeCooldown) {
       const currentTimestamp = Math.floor(Date.now() / 1000);
       const releaseTime =
@@ -93,7 +93,7 @@ exports.run = async (client, interaction) => {
     );
 
     //Gets all of the users roles
-    const userRolesMap = interaction.member.roles.cache;
+    const userRolesMap = i.member.roles.cache;
     const userRolesArray = Array.from(userRolesMap.keys());
     let currentTribe;
     //Checks each user role for a match in the tribe store
