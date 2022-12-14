@@ -1,88 +1,146 @@
-const { Permissions, MessageEmbed, MessageActionRow, MessageButton, Role } = require("discord.js");
+const {
+  Permissions,
+  MessageEmbed,
+  MessageActionRow,
+  MessageButton,
+  Role,
+} = require("discord.js");
 
-const { ReadData, StoreTribe, SetLimit, GetTribeCooldown } = require("../modules/functions");
+const {
+  ReadData,
+  StoreTribe,
+  SetLimit,
+  GetTribeCooldown,
+} = require("../modules/functions");
 const wait = require("node:timers/promises").setTimeout;
 
 exports.run = async (client, interaction) => {
-  await interaction.reply({content:"Successfully Created", ephemeral:true});
+  await interaction.reply({ content: "Successfully Created", ephemeral: true });
   const embed = new MessageEmbed()
-    .setColor(0x0099FF)
+    .setColor(0x0099ff)
     .setTitle("╣JOIN A TRIBE╠")
-    .setDescription("Build friendships, improve your leadership and compete to be the strongest of them all!\n\n" +
+    .setDescription(
+      "Build friendships, improve your leadership and compete to be the strongest of them all!\n\n" +
         "You will be randomly assigned a tribe of around 150 members, but **BEWARE**, tribe leaders and mods " +
-        "have the power to __silence__ and __banish__ you from the tribe, and you will need to wait a week before being able to join another.")
+        "have the power to __silence__ and __banish__ you from the tribe, and you will need to wait a week before being able to join another."
+    )
 
-    .setImage("https://media.discordapp.net/attachments/1051261955882623008/1051878553899245638/tribes.png");
-  const row = new MessageActionRow()
-    .addComponents(new MessageButton().setLabel("JOIN TRIBE").setStyle("PRIMARY").setCustomId("TribeBut"));
+    .setImage(
+      "https://media.discordapp.net/attachments/1051261955882623008/1051878553899245638/tribes.png"
+    );
+  const row = new MessageActionRow().addComponents(
+    new MessageButton()
+      .setLabel("JOIN TRIBE")
+      .setStyle("PRIMARY")
+      .setCustomId("TribeBut")
+  );
   const channelid = interaction.channelId;
-  await interaction.guild.channels.fetch(channelid).then(async channelo => {
-    channelo.send({embeds: [embed], components: [row]});
+  await interaction.guild.channels.fetch(channelid).then(async (channelo) => {
+    channelo.send({ embeds: [embed], components: [row] });
   });
-  const filter = i => i.customId === "TribeBut";
-  const collector = interaction.channel.createMessageComponentCollector({filter});
-  collector.on("collect", async i =>{
+  const filter = (i) => i.customId === "TribeBut";
+  const collector = interaction.channel.createMessageComponentCollector({
+    filter,
+  });
+  collector.on("collect", async (i) => {
     //i.user.id to get user id
     await i.deferUpdate();
     const tribedataraw = await ReadData();
     const tribedata = JSON.parse(tribedataraw);
-    
 
     //Checks if user is in a cooldown from joining tribes
-    let tribeCooldown = await GetTribeCooldown(interaction.user.id)
-    if (tribeCooldown){
-       const currentTimestamp = Math.floor(Date.now() / 1000)
-       const releaseTime = tribeCooldown + parseInt(process.env.tribeCooldownTime)
-       if (currentTimestamp < releaseTime){
-           const releaseTimeMinutes = Math.floor((releaseTime - currentTimestamp) / 60)
-           return i.followUp({content: `You're on a tribe cooldown for ${releaseTimeMinutes} more minutes`, ephemeral: true});
-       }
+    let tribeCooldown = await GetTribeCooldown(interaction.user.id);
+    if (tribeCooldown) {
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+      const releaseTime =
+        tribeCooldown + parseInt(process.env.tribeCooldownTime);
+      if (currentTimestamp < releaseTime) {
+        const releaseTimeMinutes = Math.floor(
+          (releaseTime - currentTimestamp) / 60
+        );
+        return i.followUp({
+          content: `You're on a tribe cooldown for ${releaseTimeMinutes} more minutes`,
+          ephemeral: true,
+        });
+      }
     }
 
-    
-    // filter out limit key from tribe data using object.fromentrie
-    const roleids = Object.entries(tribedata).filter(([key]) => key !== "Limit").map(([key, value]) => value.RoleID);
+    //Gets a headcount for every tribe
+    const roleids = Object.entries(tribedata.tribes).map(
+      ([key, value]) => value.RoleID
+    );
     if (roleids.length === 0) {
-      return i.followUp({content: "There is no Tribes to Join!", ephemeral: true});
+      return i.followUp({
+        content: "There is no Tribes to Join!",
+        ephemeral: true,
+      });
     }
     const members = await i.guild.members.fetch();
-    const membercounts = await Promise.all(roleids.map(async roleid => {
-      const role = await i.guild.roles.cache.get(roleid);
-      const memberCount = role.members.size;
+    const roles = await i.guild.roles.fetch(); //updates cache
+    const membercounts = await Promise.all(
+      roleids.map(async (roleid) => {
+        const role = await i.guild.roles.cache.get(roleid);
+        const memberCount = role.members.size;
 
-      
+        const tribeOb = {
+          id: role.id,
+          name: role.name,
+          memberCount: memberCount,
+        };
 
-      
-      
-      
-      
-      if (i.member.roles.cache.has(roleid)) {
-        return i.followUp({content: "You're already in a Tribe!", ephemeral: true});
-      }
-      return memberCount;
-    }));
+        return tribeOb;
+      })
+    );
 
+    //Gets all of the users roles
+    const userRolesMap = interaction.member.roles.cache;
+    const userRolesArray = Array.from(userRolesMap.keys());
+    let currentTribe;
+    //Checks each user role for a match in the tribe store
+    userRolesArray.forEach((roleID, arrayIndex) => {
+      membercounts.forEach((tribeObj, arrayIndex) => {
+        if (roleID === tribeObj.id) currentTribe = tribeObj.name;
+      });
+    });
 
+    //if the user is already in a tribe, return
+    if (currentTribe) {
+      return i.followUp({
+        content: `You are already a member of ${currentTribe} tribe!`,
+        ephemeral: true,
+      });
+    }
 
-   
+    //Filter tribes by lowest member count
+    let lowestTribe = Number.POSITIVE_INFINITY;
+    let highestTribe = Number.NEGATIVE_INFINITY;
+    let tmp;
+    for (let i = membercounts.length - 1; i >= 0; i--) {
+      tmp = membercounts[i].memberCount;
+      if (tmp < lowestTribe) lowestTribe = tmp;
+      if (tmp > highestTribe) highestTribe = tmp;
+    }
 
-    
-   
-   
-    const minMemberCount = Math.min.apply(Math, membercounts);
-    const randomTribe = roleids
-      .map((roleid, i) => ({roleid: roleid, members: membercounts[i]})) //zip tribes and member counts
-      .filter(({roleid, members}) => members === minMemberCount)    //find tribes with min members
-      .sort(() => 0.5 - Math.random())[0].roleid;//sort randomly and get first tribe
-    await i.member.roles.add(randomTribe);
-    const tribes = JSON.parse(tribedataraw);
-    const name = Object.entries(tribes).find(tribeInfo => tribeInfo[1].RoleID === randomTribe)[0];
-    const message = `You've joined the ${name}!`;
-    i.followUp({content: message, ephemeral:true});
+    //Gets the tribe(s) with the lowest member count
+    let lowestTribeArray = membercounts.filter((tribe) => {
+      return tribe.memberCount === lowestTribe;
+    });
 
+    //Assign tribe to user
+    const randomTribeArrIndex = Math.floor(
+      Math.random() * lowestTribeArray.length
+    );
+    const selectedTribe = lowestTribeArray[randomTribeArrIndex];
+    await i.member.roles.add(selectedTribe.id);
+    return i.followUp({
+      content: `You've joined the ${selectedTribe.name}!`,
+      ephemeral: true,
+    });
+    //END OF COMMAND
   });
-  collector.on("end", collected => console.log("collected tribe button"));
+  collector.on("end", (collected) => console.log("collected tribe button"));
 };
+
 exports.commandData = {
   name: "setup",
   description: "Sends the Tribe Join Message",
@@ -93,5 +151,5 @@ exports.commandData = {
 // Otherwise false is global.
 exports.conf = {
   permLevel: "Bot Admin",
-  guildOnly: true
+  guildOnly: true,
 };

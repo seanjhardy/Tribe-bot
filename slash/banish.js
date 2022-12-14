@@ -3,7 +3,7 @@ const { ReadData, SetTribeCooldown } = require("../modules/functions.js");
 
 exports.run = async (client, interaction) => {
   const tribeData = JSON.parse(await ReadData());
-  const tribeNames = Object.keys(tribeData);
+  const tribeNames = Object.keys(tribeData.tribes);
   let userTribe;
   let targetTribe;
   //Checks if command user is a tribe mod
@@ -36,7 +36,7 @@ exports.run = async (client, interaction) => {
   //Checks each user role for a match in the tribe store
   userRolesArray.forEach((roleID, arrayIndex) => {
     tribeNames.forEach((tribeName, arrayIndex) => {
-      const tribeID = tribeData[tribeName].RoleID;
+      const tribeID = tribeData.tribes[tribeName].RoleID;
 
       if (roleID === tribeID) {
         userTribe = tribeID;
@@ -51,7 +51,7 @@ exports.run = async (client, interaction) => {
   //Checks each target role for a match in the tribe store
   targetRolesArray.forEach((roleID, arrayIndex) => {
     tribeNames.forEach((tribeName, arrayIndex) => {
-      const tribeID = tribeData[tribeName].RoleID;
+      const tribeID = tribeData.tribes[tribeName].RoleID;
 
       if (roleID === tribeID) {
         targetTribe = tribeID;

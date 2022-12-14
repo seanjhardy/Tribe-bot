@@ -96,7 +96,7 @@ async function FileSysCheck()
   if (!fs.existsSync('Data.json'))
   {
     console.log("FS: Could not read DATA! Attempting to Create DATA...");
-    await fs.writeFileSync('Data.json', "{}", async (err, result) =>
+    await fs.writeFileSync('Data.json', `{"tribes":{}, "cooldown":{}, "Limit":-1}`, async (err, result) =>
     {
       if (err)
       {
@@ -139,15 +139,15 @@ async function StoreTribe(Name, Emoji, Category, RoleID)
   var togethernow = {Emoji, Category, RoleID};
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
-  tribedata[Name] = togethernow;
+  tribedata.tribes[Name] = togethernow;
   await WriteData(JSON.stringify(tribedata));
 }
 async function RemoveTribe(Name)
 {
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
-  var tribe = tribedata[Name]
-  delete tribedata[Name];
+  var tribe = tribedata.tribes[Name]
+  delete tribedata.tribes[Name];
   await WriteData(JSON.stringify(tribedata));
 }
 
