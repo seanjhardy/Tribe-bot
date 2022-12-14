@@ -71,7 +71,7 @@ exports.run = async (client, interaction) => {
     );
     if (roleids.length === 0) {
       return i.followUp({
-        content: "There is no Tribes to Join!",
+        content: "There are no tribes to Join!",
         ephemeral: true,
       });
     }
@@ -133,7 +133,7 @@ exports.run = async (client, interaction) => {
     const selectedTribe = lowestTribeArray[randomTribeArrIndex];
     await i.member.roles.add(selectedTribe.id);
     return i.followUp({
-      content: `You've joined the ${selectedTribe.name}!`,
+      content: `You've joined the ${selectedTribe.name} tribe!`,
       ephemeral: true,
     });
     //END OF COMMAND
