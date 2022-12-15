@@ -69,7 +69,6 @@ exports.run = async (client, interaction) => {
   if (userTribe === targetTribe) {
     const tribeRole = interaction.guild.roles.cache.get(targetTribe);
     target.roles.remove(tribeRole);
-   console.log(targetTribe)
     await SetTribeCooldown(targetID, Math.floor(Date.now() / 1000), targetTribe);
 
 

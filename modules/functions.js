@@ -188,11 +188,26 @@ async function GetTribeCooldown(userID)
  
 }
 
+async function removeBanishes(targetID)
+{
+ try {
+   let tribeDataRaw = await ReadData();
+   let tribedata = JSON.parse(tribeDataRaw);
+   let banishArray = tribedata.banishes
+   let newBanishArray = banishArray.filter(function( obj ) {
+    return obj.userID !== targetID;
+   });
+   tribedata.banishes = newBanishArray
+   await WriteData(JSON.stringify(tribedata));
+   return 
+ } catch (error){
+  return null
+ }
+ 
+ 
+}
 
 
-
-
-module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe, RemoveTribe, SetLimit, SetTribeCooldown, GetTribeCooldown };
 
 
 async function AddPoints(Name, amount)
@@ -211,5 +226,12 @@ async function MinusPoints(Name, amount)
   tribe.Points -= amount;
   await WriteData(JSON.stringify(tribedata));
 }
-module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe, RemoveTribe, SetLimit, AddPoints, MinusPoints };
+
+
+
+
+
+
+
+module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe, RemoveTribe, SetLimit, AddPoints, MinusPoints, SetTribeCooldown, GetTribeCooldown, removeBanishes };
 

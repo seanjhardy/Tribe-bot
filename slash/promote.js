@@ -32,7 +32,6 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
         break;
       }
     }
-    console.log("Tribe: " + tribe);
     // Check if user is in the tribe.
     if (tribe == "") {
       return interaction.reply(`${userPromote} is not in your tribe.`);

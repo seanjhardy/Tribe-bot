@@ -154,7 +154,7 @@ exports.run = async (client, interaction) => {
     });
     //END OF COMMAND
   });
-  collector.on("end", (collected) => console.log("collected tribe button"));
+  collector.on("end", (collected) => {});
 };
 
 
