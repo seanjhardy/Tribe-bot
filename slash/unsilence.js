@@ -2,14 +2,34 @@ const { Permissions } = require("discord.js");
 require("dotenv").config();
 
 exports.run = async (client, interaction) => {
-    const user = interaction.options.getMember("user");
-    const username = user.displayName;
-    await user.timeout(null, "Tribe Timeout!");
+  const target = interaction.options.getMember("target");
+  console.log(target)
+  const targetUsername = target.displayName;
+  const targetID = target.id
+  const targetObject = interaction.guild.members.cache.get(targetID);
+
+  
+   
+  
+//Checks if command user is a tribe mod
+if (
+  !interaction.member.roles.cache.find(
+    (r) => r.id === process.env.TribeModRole
+  )
+) {
+  return await interaction.reply(
+    `You do not have permission (Tribe Moderator) to use this command!`
+  );
+}
+  
+  
+  
+  await target.timeout(null, "Tribe Timeout!");
 
     //send log
     const embed = {
       "title": "unsilence",
-      "description": `**User:** ${user}\n**Unsilenced by:** ${interaction.user}`,
+      "description": `**User:** ${target}\n**Unsilenced by:** ${interaction.user}`,
       "color": 16711680, // 16711680 = red for moderation logs | 4690898 = pink/purplish for other commands
       "timestamp": new Date(),
       "footer": {
@@ -20,7 +40,7 @@ exports.run = async (client, interaction) => {
     client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
 
     // Reply to user
-    return interaction.reply(`${username} has been unsilenced!`);
+    return interaction.reply(`${targetUsername} has been unsilenced!`);
 }
 
 exports.commandData = {
@@ -29,8 +49,8 @@ exports.commandData = {
     options: [
   
   {
-      name:"user",
-      description:"the name of the tribe you want to create",
+      name:"target",
+      description:"the name of the target",
       type:6,
       required:true
   }
@@ -41,6 +61,6 @@ exports.commandData = {
   // Set guildOnly to true if you want it to be available on guilds only.
   // Otherwise false is global.
   exports.conf = {
-    permLevel: "Bot Admin",
+    permLevel: "User",
     guildOnly: true
   };
