@@ -96,7 +96,7 @@ async function FileSysCheck()
   if (!fs.existsSync('Data.json'))
   {
     console.log("FS: Could not read DATA! Attempting to Create DATA...");
-    await fs.writeFileSync('Data.json', "{}", async (err, result) =>
+    await fs.writeFileSync('Data.json', `{"tribes":{}, "cooldown":{}, "Limit":-1}`, async (err, result) =>
     {
       if (err)
       {
@@ -107,21 +107,24 @@ async function FileSysCheck()
     })
     SetLimit(-1);
   }
+
 }
 async function ReadData() {
   await FileSysCheck();
   
-  let data = fs.readFileSync('Data.json', async (err, data) =>
+  return fs.readFileSync('Data.json', 'utf8', async (err, data) =>
   {
     if (err)
     {
       console.log("FS: Error Reading!");
     }
+
     return data;
     
   })
-  return data.toString();
+
 }
+
 async function WriteData(datatowrite)
 {
   await FileSysCheck();
@@ -138,17 +141,18 @@ async function StoreTribe(Name, Emoji, Category, RoleID)
   var togethernow = {Emoji, Category, RoleID, Points: 0};
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
-  tribedata[Name] = togethernow;
+  tribedata.tribes[Name] = togethernow;
   await WriteData(JSON.stringify(tribedata));
 }
 async function RemoveTribe(Name)
 {
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
-  var tribe = tribedata[Name]
-  delete tribedata[Name];
+  var tribe = tribedata.tribes[Name]
+  delete tribedata.tribes[Name];
   await WriteData(JSON.stringify(tribedata));
 }
+
 async function SetLimit(int)
 {
   var tribedataraw = await ReadData();
@@ -156,6 +160,41 @@ async function SetLimit(int)
   tribedata.Limit = int
   await WriteData(JSON.stringify(tribedata))
 }
+
+
+async function SetTribeCooldown(userID, timestamp, tribeID)
+{
+  let banishObject = {banishTime: timestamp, userID: userID, tribeID: tribeID}
+  let cooldownObject = {banishTime: timestamp}
+  let tribeDataRaw = await ReadData();
+  let tribedata = JSON.parse(tribeDataRaw);
+  tribedata.banishes.push(banishObject)
+  tribedata.cooldown[userID] = cooldownObject;
+  await WriteData(JSON.stringify(tribedata));
+  return 
+}
+
+async function GetTribeCooldown(userID)
+{
+ try {
+   let tribeDataRaw = await ReadData();
+   let tribedata = JSON.parse(tribeDataRaw);
+   let releaseDate = tribedata.cooldown[userID].banishTime
+   return releaseDate
+ } catch (error){
+   return null
+ }
+ 
+ 
+}
+
+
+
+
+
+module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe, RemoveTribe, SetLimit, SetTribeCooldown, GetTribeCooldown };
+
+
 async function AddPoints(Name, amount)
 {
   var tribedataraw = await ReadData();
@@ -173,3 +212,4 @@ async function MinusPoints(Name, amount)
   await WriteData(JSON.stringify(tribedata));
 }
 module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe, RemoveTribe, SetLimit, AddPoints, MinusPoints };
+

@@ -7,14 +7,16 @@ require("dotenv").config();
 exports.run = async (client, interaction) => {
     const name = interaction.options.getString("name");
     const tribedataraw = await ReadData();
-    const tribes = JSON.parse(tribedataraw);
-    if (!(name in tribes))
+    const tribeData = JSON.parse(tribedataraw);
+
+    if (!(name in tribeData.tribes))
+
     {
         return interaction.reply("That Tribe Doesn't Exist!");
     }
     else
     {
-        const tribetoremove = tribes[name];
+        const tribetoremove = tribeData.tribes[name];
         const roleid = tribetoremove.RoleID;
         const catagoryid = tribetoremove.Category;
         await interaction.guild.roles.fetch(roleid).then(role => {if (role) {role.delete()}});

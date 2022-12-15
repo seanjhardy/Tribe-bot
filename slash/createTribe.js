@@ -9,9 +9,8 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   const emoji = interaction.options.getString("emoji");
   
   const tribedataraw = await ReadData();
-  console.log(tribedataraw);
-  const tribes = JSON.parse(tribedataraw);
-  if (name in tribes) { // Check if tribes exists with name or emoji
+  const tribedata = JSON.parse(tribedataraw);
+  if (name in tribedata.tribes) { // Check if tribes exists with name or emoji
     return interaction.reply(`Tribe name or emoji is already taken.`);
   } else {
     

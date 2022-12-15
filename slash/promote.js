@@ -27,7 +27,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
     // Check if any of common roles are in tribedata.
     var tribe = "";
     for (var i = 0; i < commonRoles.length; i++) {
-      if (tribedata[commonRoles[i]]) {
+      if (tribedata.tribes[commonRoles[i]]) {
         tribe = commonRoles[i];
         break;
       }
