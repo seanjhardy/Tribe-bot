@@ -7,12 +7,11 @@ require("dotenv").config();
 
 
 exports.run = async (client, interaction) => {
-  const name = interaction.options.getString("name");
   const tribedataraw = await ReadData();
   const tribes = JSON.parse(tribedataraw);
   const duration = durationFormatter.format(client.uptime);
 
-  const numTribes = Object.keys(tribes).length - 1;  // Store the number of items in tribes
+  const numTribes = Object.keys(tribes.tribes).length;  // Store the number of items in tribes
   // Create an embed with 2 inline fields
   const embed = new MessageEmbed()
     .setColor(4690898)
@@ -22,7 +21,7 @@ exports.run = async (client, interaction) => {
     .addField("🗄 Memory Usage", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
     .addField("📝 Users", `${client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b).toLocaleString()}`, true)
     .addField("🥇 Tribes", `${numTribes}`, true)
-    .addField("👓 Limit", `${tribes.Limit}`, true)
+    .addField("👓 Limit", `${tribes.limit === -1 ? "∞" : tribes.limit}`, true)
     .setFooter("Hamza's Cult • Tribe System", "https://cdn.discordapp.com/icons/811270187843977236/5a7ac443be8f92675def615e470ac4a6.webp?size=96")
     .setThumbnail("https://media.discordapp.net/attachments/1051261955882623008/1051878553899245638/tribes.png");
 
