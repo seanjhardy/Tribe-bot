@@ -7,6 +7,7 @@ exports.run = async (client, interaction) => {
   const tribeNames = Object.keys(tribeData.tribes);
   let userTribe;
   let targetTribe;
+ 
   //Checks if command user is a tribe mod
   if (
     !interaction.member.roles.cache.find(
