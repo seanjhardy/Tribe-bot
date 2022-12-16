@@ -65,23 +65,14 @@ const config = {
         }
       }
     },
-
-    
-    { 
-      //HAMZA SERVER ADMIN ROLE 
-       level: 10,
-       name:"Cult Overseer",
-
-       check: (message) => {
-        try {
-          return (message.member.roles.cache.has(process.env.overseerRole));//Overseer role id goes here
-        } catch (e) {
-          return false;
-        }
+    { level: 10,
+      name: "Bot Owner", 
+      // Another simple check, compares the message author id to a list of owners found in the bot application.
+      check: (message) => {
+        const owner = message.author ?? message.user;
+        return owner.id === process.env.OWNER;
       }
-    },
-    
-    
+    }
   ]
 };
 
