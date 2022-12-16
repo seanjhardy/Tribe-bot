@@ -154,7 +154,7 @@ exports.run = async (client, interaction) => {
     });
     //END OF COMMAND
   });
-  collector.on("end", (collected) => console.log("collected tribe button"));
+  collector.on("end", (collected) => {});
 };
 
 
@@ -167,7 +167,7 @@ exports.commandData = {
 // Set guildOnly to true if you want it to be available on guilds only.
 // Otherwise false is global.
 exports.conf = {
-  permLevel: "Bot Admin",
+  permLevel: "Cult Admin",
 guildOnly: true
 
 };

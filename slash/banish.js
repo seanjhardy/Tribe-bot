@@ -7,6 +7,7 @@ exports.run = async (client, interaction) => {
   const tribeNames = Object.keys(tribeData.tribes);
   let userTribe;
   let targetTribe;
+ 
   //Checks if command user is a tribe mod
   if (
     !interaction.member.roles.cache.find(
@@ -69,7 +70,6 @@ exports.run = async (client, interaction) => {
   if (userTribe === targetTribe) {
     const tribeRole = interaction.guild.roles.cache.get(targetTribe);
     target.roles.remove(tribeRole);
-   console.log(targetTribe)
     await SetTribeCooldown(targetID, Math.floor(Date.now() / 1000), targetTribe);
 
 
@@ -103,6 +103,6 @@ exports.commandData = {
 // Set guildOnly to true if you want it to be available on guilds only.
 // Otherwise false is global.
 exports.conf = {
-  permLevel: "Bot Admin",
+  permLevel: "User",
   guildOnly: true,
 };

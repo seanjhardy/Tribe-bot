@@ -16,7 +16,7 @@ exports.conf = {
   enabled: true,
   guildOnly: false,
   aliases: ["restart"],
-  permLevel: "Bot Admin"
+  permLevel: "Cult Admin"
 };
 
 exports.help = {
