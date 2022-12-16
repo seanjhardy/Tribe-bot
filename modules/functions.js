@@ -96,7 +96,7 @@ async function FileSysCheck()
   if (!fs.existsSync('Data.json'))
   {
     console.log("FS: Could not read DATA! Attempting to Create DATA...");
-    await fs.writeFileSync('Data.json', `{"tribes":{}, "cooldown":{}, "Limit":-1}`, async (err, result) =>
+    await fs.writeFileSync('Data.json', `{"banishes":{},"tribes":{}, "cooldown":{}, "limit":-1}`, async (err, result) =>
     {
       if (err)
       {
@@ -157,7 +157,7 @@ async function SetLimit(int)
 {
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
-  tribedata.Limit = int
+  tribedata.limit = int
   await WriteData(JSON.stringify(tribedata))
 }
 
@@ -209,7 +209,6 @@ async function removeBanishes(targetID)
 
 
 
-
 async function AddPoints(Name, amount)
 {
   var tribedataraw = await ReadData();
@@ -226,12 +225,6 @@ async function MinusPoints(Name, amount)
   tribe.Points -= amount;
   await WriteData(JSON.stringify(tribedata));
 }
-
-
-
-
-
-
 
 module.exports = { getSettings, permlevel, awaitReply, toProperCase, ReadData, WriteData, StoreTribe, RemoveTribe, SetLimit, AddPoints, MinusPoints, SetTribeCooldown, GetTribeCooldown, removeBanishes };
 
