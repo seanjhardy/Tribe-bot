@@ -1,4 +1,5 @@
 const { Intents } = require("discord.js");
+require("dotenv").config();
 
 /* config */
 const config = {
@@ -58,7 +59,7 @@ const config = {
 
        check: (message) => {
         try {
-          return (message.member.roles.cache.has("1053265638937870356"));//Admin role id goes here
+          return (message.member.roles.cache.has(process.env.adminRole));//Admin role id goes here
         } catch (e) {
           return false;
         }
@@ -73,7 +74,7 @@ const config = {
 
        check: (message) => {
         try {
-          return (message.member.roles.cache.has("1053265638937870356"));//Overseer role id goes here
+          return (message.member.roles.cache.has(process.env.overseerRole));//Overseer role id goes here
         } catch (e) {
           return false;
         }
