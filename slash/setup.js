@@ -171,3 +171,4 @@ exports.conf = {
 guildOnly: true
 
 };
+//Tested

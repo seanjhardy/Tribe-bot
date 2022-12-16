@@ -93,10 +93,10 @@ process.on("unhandledRejection", err => {
 /* Storage System Check */
 async function FileSysCheck()
 {
-  if (!fs.existsSync('Data.json'))
+  if (!fs.existsSync('../data/Data.json'))
   {
     console.log("FS: Could not read DATA! Attempting to Create DATA...");
-    await fs.writeFileSync('Data.json', `{"banishes":{},"tribes":{}, "cooldown":{}, "limit":-1}`, async (err, result) =>
+    await fs.writeFileSync("../data/Data.json", `{"banishes":{},"tribes":{}, "cooldown":{}, "limit":-1}`, async (err, result) =>
     {
       if (err)
       {
@@ -112,7 +112,7 @@ async function FileSysCheck()
 async function ReadData() {
   await FileSysCheck();
   
-  return fs.readFileSync('Data.json', 'utf8', async (err, data) =>
+  return fs.readFileSync('../data/Data.json', 'utf8', async (err, data) =>
   {
     if (err)
     {
@@ -128,7 +128,7 @@ async function ReadData() {
 async function WriteData(datatowrite)
 {
   await FileSysCheck();
-  fs.writeFile('Data.json', datatowrite, (err, result) => {
+  fs.writeFile('../data/Data.json', datatowrite, (err, result) => {
     if (err)
     {
       console.log("FS: Write Error!");

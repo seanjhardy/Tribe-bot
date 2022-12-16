@@ -127,3 +127,4 @@ exports.conf = {
   permLevel: "Cult Admin",
   guildOnly: true
 };
+//Tested
