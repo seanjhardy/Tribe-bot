@@ -41,7 +41,7 @@ exports.conf = {
   enabled: true,
   guildOnly: false,
   aliases: [],
-  permLevel: "Cult Overseer"
+  permLevel: "Bot Owner"
 };
 
 exports.help = {
