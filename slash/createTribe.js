@@ -1,5 +1,4 @@
 const { Permissions } = require("discord.js");
-
 const { ReadData, StoreTribe } = require("../modules/functions");
 require("dotenv").config();
 
