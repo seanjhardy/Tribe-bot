@@ -3,7 +3,6 @@ require("dotenv").config();
 
 exports.run = async (client, interaction) => {
   const target = interaction.options.getMember("target");
-  console.log(target)
   const targetUsername = target.displayName;
   const targetID = target.id
   const targetObject = interaction.guild.members.cache.get(targetID);
