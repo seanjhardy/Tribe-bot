@@ -53,3 +53,4 @@ exports.commandData = {
     permLevel: "Cult Admin",
     guildOnly: true
   };
+  //Tested

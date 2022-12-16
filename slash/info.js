@@ -40,3 +40,4 @@ exports.conf = {
   permLevel: "Cult Admin",
   guildOnly: false
 };
+//Tested

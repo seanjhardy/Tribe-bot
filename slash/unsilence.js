@@ -63,3 +63,4 @@ exports.commandData = {
     permLevel: "User",
     guildOnly: true
   };
+  //Tested

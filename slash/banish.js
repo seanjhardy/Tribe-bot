@@ -106,3 +106,4 @@ exports.conf = {
   permLevel: "User",
   guildOnly: true,
 };
+//Tested
