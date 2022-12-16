@@ -3,8 +3,7 @@ RUN mkdir -p /usr/src/bot
 WORKDIR /usr/src/bot
 
 COPY package.json /usr/src/bot
-RUN npm install
-RUN npm cache clean
+RUN yarn install
 
 COPY . /usr/src/bot
 
