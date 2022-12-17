@@ -19,4 +19,5 @@ RUN yarn install
 
 COPY . /usr/src/bot
 
+WORKDIR ./usr/src/bot
 CMD ["node", "index.js"]
