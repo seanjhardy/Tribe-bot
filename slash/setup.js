@@ -51,7 +51,6 @@ exports.run = async (client, interaction) => {
     const tribedataraw = await ReadData();
     const tribedata = JSON.parse(tribedataraw);
 
-
     //Checks if user is in a cooldown from joining tribes
     let tribeCooldown = await GetTribeCooldown(i.user.id);
     if (tribeCooldown) {
@@ -138,6 +137,15 @@ exports.run = async (client, interaction) => {
     let lowestTribeArray = membercounts.filter((tribe) => {
       return tribe.memberCount === lowestTribe;
     });
+
+    var tribedataraw2 = await ReadData();
+    var tribedata2 = JSON.parse(tribedataraw2);
+    if (lowestTribe >= tribedata2.limit) {
+      return await i.editReply({
+        content: `The tribe limit has been reached`,
+        ephemeral: true,
+      });
+    }
 
     //Assign tribe to user
     const randomTribeArrIndex = Math.floor(
