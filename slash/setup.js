@@ -39,17 +39,17 @@ exports.run = async (client, interaction) => {
   await interaction.guild.channels.fetch(channelid).then(async (channelo) => {
     channelo.send({ embeds: [embed], components: [row] });
   });
+
   const filter = (i) => i.customId === "TribeBut";
   const collector = interaction.channel.createMessageComponentCollector({
     filter,
   });
-  collector.on("collect", async (i) => {
 
+  collector.on("collect", async (i) => {
     //i.user.id to get user id
-    await i.deferUpdate();
+    await i.deferReply({ephemeral:true});
     const tribedataraw = await ReadData();
     const tribedata = JSON.parse(tribedataraw);
-
 
     //Checks if user is in a cooldown from joining tribes
     let tribeCooldown = await GetTribeCooldown(i.user.id);
@@ -61,32 +61,28 @@ exports.run = async (client, interaction) => {
         const releaseTimeMinutes = Math.floor(
           (releaseTime - currentTimestamp) / 60
         );
-        return i.followUp({
+        return await i.editReply({
           content: `You're on a tribe cooldown for ${releaseTimeMinutes} more minutes`,
           ephemeral: true,
         });
       }
     }
 
-
     //Checks if user is banned from joining a tribe
     let userBanishArray = tribedata.banishes.filter(x => x.userID.includes(i.user.id));
     if (userBanishArray.length >= 3) {
-      return i.followUp({
+      return await i.editReply({
         content: `You are banned from joining tribes at this time!`,
         ephemeral: true,
       });
     }
-
-
-
 
     //Gets a headcount for every tribe
     const roleids = Object.entries(tribedata.tribes).map(
       ([key, value]) => value.RoleID
     );
     if (roleids.length === 0) {
-      return i.followUp({
+      return await i.editReply({
         content: "There are no tribes to Join!",
         ephemeral: true,
       });
@@ -121,7 +117,7 @@ exports.run = async (client, interaction) => {
 
     //if the user is already in a tribe, return
     if (currentTribe) {
-      return i.followUp({
+      return await i.editReply({
         content: `You are already a member of ${currentTribe} tribe!`,
         ephemeral: true,
       });
@@ -142,13 +138,20 @@ exports.run = async (client, interaction) => {
       return tribe.memberCount === lowestTribe;
     });
 
+    if (lowestTribe >= tribedata.limit) {
+      return await i.editReply({
+        content: `The tribe limit has been reached`,
+        ephemeral: true,
+      });
+    }
+
     //Assign tribe to user
     const randomTribeArrIndex = Math.floor(
       Math.random() * lowestTribeArray.length
     );
     const selectedTribe = lowestTribeArray[randomTribeArrIndex];
     await i.member.roles.add(selectedTribe.id);
-    return i.followUp({
+    return await i.editReply({
       content: `You've joined the ${selectedTribe.name} tribe!`,
       ephemeral: true,
     });
