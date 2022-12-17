@@ -62,7 +62,7 @@ exports.run = async (client, interaction) => {
         const releaseTimeMinutes = Math.floor(
           (releaseTime - currentTimestamp) / 60
         );
-        return await i.followUp({
+        return await i.editReply({
           content: `You're on a tribe cooldown for ${releaseTimeMinutes} more minutes`,
           ephemeral: true,
         });
@@ -72,7 +72,7 @@ exports.run = async (client, interaction) => {
     //Checks if user is banned from joining a tribe
     let userBanishArray = tribedata.banishes.filter(x => x.userID.includes(i.user.id));
     if (userBanishArray.length >= 3) {
-      return await i.followUp({
+      return await i.editReply({
         content: `You are banned from joining tribes at this time!`,
         ephemeral: true,
       });
@@ -83,7 +83,7 @@ exports.run = async (client, interaction) => {
       ([key, value]) => value.RoleID
     );
     if (roleids.length === 0) {
-      return await i.followUp({
+      return await i.editReply({
         content: "There are no tribes to Join!",
         ephemeral: true,
       });
@@ -118,7 +118,7 @@ exports.run = async (client, interaction) => {
 
     //if the user is already in a tribe, return
     if (currentTribe) {
-      return await i.followUp({
+      return await i.editReply({
         content: `You are already a member of ${currentTribe} tribe!`,
         ephemeral: true,
       });
@@ -145,7 +145,7 @@ exports.run = async (client, interaction) => {
     );
     const selectedTribe = lowestTribeArray[randomTribeArrIndex];
     await i.member.roles.add(selectedTribe.id);
-    return await i.followUp({
+    return await i.editReply({
       content: `You've joined the ${selectedTribe.name} tribe!`,
       ephemeral: true,
     });
