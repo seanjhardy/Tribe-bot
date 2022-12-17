@@ -37,7 +37,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
         },
         {
           id: roleID,
-          allow: [Permissions.FLAGS.VIEW_CHANNEL],
+          allow: [Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES],
         },
       ],
     });
@@ -51,7 +51,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
         },
         {
           id: roleID,
-          allow: [Permissions.FLAGS.VIEW_CHANNEL],
+          allow: [Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES],
         },
       ],
     });
@@ -65,7 +65,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
         },
         {
           id: roleID,
-          allow: [Permissions.FLAGS.VIEW_CHANNEL],
+          allow: [Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES],
         },
       ],
     });
