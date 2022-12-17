@@ -47,7 +47,7 @@ exports.run = async (client, interaction) => {
 
   collector.on("collect", async (i) => {
     //i.user.id to get user id
-    await i.deferReply();
+    await i.deferReply({ephemeral:true});
     const tribedataraw = await ReadData();
     const tribedata = JSON.parse(tribedataraw);
 
