@@ -138,9 +138,7 @@ exports.run = async (client, interaction) => {
       return tribe.memberCount === lowestTribe;
     });
 
-    var tribedataraw2 = await ReadData();
-    var tribedata2 = JSON.parse(tribedataraw2);
-    if (lowestTribe >= tribedata2.limit) {
+    if (lowestTribe >= tribedata.limit) {
       return await i.editReply({
         content: `The tribe limit has been reached`,
         ephemeral: true,
