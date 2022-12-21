@@ -9,9 +9,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   var tribedata = JSON.parse(tribedataraw);
 
   // Check if executor has chief role.
-  if (!interaction.member.roles.cache.has(process.env.ChiefRole)) {
-    return interaction.reply("You are not a chief.");
-  } else {
+
     // Get user ID and their tribe.
     userDemote = interaction.options.get("user").value;
     userDemoteID = userDemote.replace(/\D/g, "");
@@ -63,7 +61,6 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
       }
     }
   }
-};
 
 exports.commandData = {
   name: "demote",
@@ -83,7 +80,7 @@ exports.commandData = {
 // Set guildOnly to true if you want it to be available on guilds only.
 // Otherwise false is global.
 exports.conf = {
-  permLevel: "User",
+  permLevel: "Tribe Chief",
   guildOnly: true
 };
 //Tested

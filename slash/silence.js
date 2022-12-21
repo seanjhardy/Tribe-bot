@@ -18,16 +18,7 @@ exports.run = async (client, interaction) => {
   }
     
     
-    //Checks if command user is a tribe mod
-  if (
-    !interaction.member.roles.cache.find(
-      (r) => r.id === process.env.TribeModRole
-    )
-  ) {
-    return await interaction.reply(
-      `You do not have permission (Tribe Moderator) to use this command!`
-    );
-  }
+    
     
     await target.timeout(4 * 60 * 60 * 1000, "Tribe Timeout!");
 
@@ -66,7 +57,7 @@ exports.commandData = {
   // Set guildOnly to true if you want it to be available on guilds only.
   // Otherwise false is global.
   exports.conf = {
-    permLevel: "User",
+    permLevel: "Tribe Moderator",
     guildOnly: true
   };
   //Tested
