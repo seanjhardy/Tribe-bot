@@ -1,1 +1,1 @@
-{"limit":-1,"banishes":[],"cooldown":{},"tribes":{}}
+{"limit":-1,"banishes":[{"banishTime":1671622590,"userID":"193653463803101184","tribeID":"1055085445878403122"}],"cooldown":{"193653463803101184":{"banishTime":1671622590}},"tribes":{"testtribe2":{"Emoji":null,"Category":"1055085447019245598","RoleID":"1055085445878403122","Points":0}}}
