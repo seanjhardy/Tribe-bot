@@ -66,7 +66,17 @@ exports.run = async (client, interaction) => {
     
 
 
-
+    const embed = {
+      "title": "Banish",
+      "description": `**User:** ${interaction.user}\n**Banished:** ${target}`,
+      "color": 16711680, // 16711680 = red for moderation logs | 4690898 = pink/purplish for other commands
+      "timestamp": new Date(),
+      "footer": {
+        "icon_url": "https://cdn.discordapp.com/icons/811270187843977236/5a7ac443be8f92675def615e470ac4a6.webp?size=96",
+        "text": "Hamza's Cult"
+      }
+    };
+    client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
 
     return await interaction.reply(`User banished from tribe`);
   } else {
