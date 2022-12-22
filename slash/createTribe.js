@@ -55,7 +55,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
         },
         {
           id: process.env.chiefRole,
-          allow: [Permissions.FLAGS.CREATE_PUBLIC_THREADS, Permissions.FLAGS.CREATE_PRIVATE_THREADS, Permissions.FLAGS.MANAGE_MESSAGES, Permissions.FLAGS.MENTION_EVERYONE],
+          allow: [Permissions.FLAGS.CREATE_PUBLIC_THREADS, Permissions.FLAGS.CREATE_PRIVATE_THREADS, Permissions.FLAGS.MANAGE_MESSAGES, Permissions.FLAGS.MENTION_EVERYONE, Permissions.FLAGS.EMBED_LINKS, Permissions.FLAGS.ATTACH_FILES, Permissions.FLAGS.ADD_REACTIONS, Permissions.FLAGS.MANAGE_THREADS, Permissions.FLAGS.SEND_MESSAGES, Permissions.FLAGS.SEND_MESSAGES_IN_THREADS],
         },
       ],
     });

@@ -102,7 +102,7 @@ const config = {
       // Another simple check, compares the message author id to a list of owners found in the bot application.
       check: (message) => {
         const owner = message.author ?? message.user;
-        return owner.id === process.env.OWNER;
+        return owner.id === process.env.owner;
       },
     },
   ],
