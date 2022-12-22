@@ -24,7 +24,7 @@ exports.run = async (client, interaction) => {
         "text": "Hamza's Cult"
       }
     };
-    client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
+    client.channels.cache.get(process.env.logChannel).send({ embeds: [embed] });
 
     // Reply to user
     return interaction.reply(`${targetUsername} has been unsilenced!`);

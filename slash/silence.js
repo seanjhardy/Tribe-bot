@@ -8,12 +8,12 @@ exports.run = async (client, interaction) => {
     const targetObject = interaction.guild.members.cache.get(targetID);
     
     //Checks if target is a tribe mod
-  if (targetObject.roles.cache.has(process.env.TribeModRole)) {
+  if (targetObject.roles.cache.has(process.env.tribeModRole)) {
     return await interaction.reply(`Target user is a tribe moderator!`);
   }
 
   //Checks if target is a tribe chief
-  if (targetObject.roles.cache.has(process.env.ChiefRole)) {
+  if (targetObject.roles.cache.has(process.env.chiefRole)) {
     return await interaction.reply(`Target user is a tribe chief!`);
   }
     
@@ -34,7 +34,7 @@ exports.run = async (client, interaction) => {
         "text": "Hamza's Cult"
       }
     };
-    client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
+    client.channels.cache.get(process.env.logChannel).send({ embeds: [embed] });
 
     // reply to user
     return interaction.reply(`${Targetusername} has been silenced!`);

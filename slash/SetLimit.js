@@ -19,7 +19,7 @@ exports.run = async (client, interaction) => {
         "text": "Hamza's Cult"
       }
     };
-    client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
+    client.channels.cache.get(process.env.logChannel).send({ embeds: [embed] });
 
     // set limit
     if (limitamount === -1)

@@ -53,6 +53,10 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
           id: roleID,
           allow: [Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES, Permissions.FLAGS.SEND_MESSAGES_IN_THREADS],
         },
+        {
+          id: process.env.chiefRole,
+          allow: [Permissions.FLAGS.CREATE_PUBLIC_THREADS, Permissions.FLAGS.CREATE_PRIVATE_THREADS, Permissions.FLAGS.MANAGE_MESSAGES, Permissions.FLAGS.MENTION_EVERYONE],
+        },
       ],
     });
     const vc1 = await interaction.guild.channels.create("Voice Chat", {
@@ -91,7 +95,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
         "text": "Hamza's Cult"
       }
     };
-    client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
+    client.channels.cache.get(process.env.logChannel).send({ embeds: [embed] });
 
 
     // Send message

@@ -35,7 +35,7 @@ exports.run = async (client, interaction) => {
             "text": "Hamza's Cult"
           }
         };
-        client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
+        client.channels.cache.get(process.env.logChannel).send({ embeds: [embed] });
         // return reply to user
         return interaction.reply("Successfully Deleted The Tribe!");
     }
