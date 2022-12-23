@@ -12,7 +12,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   messageID = interaction.options.get("message").value; // Message ID
   // Get message object.
   message = await interaction.channel.messages.fetch(messageID);
-  console.log(message.content);
+  messageContent = message.content; // Message content
 };
 
 exports.commandData = {
