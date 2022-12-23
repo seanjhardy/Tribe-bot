@@ -54,7 +54,13 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   // Send message to alert channel
   const embed = {
     "title": `Alert -  ${tribe}`,
-    "description": `**User Reported:** <@${messageAuthorID}>\n**Tribe:** ${tribe}\n**Reported by:** <@${interaction.user.id}>\n**Message:** ${messageContent}\n**Message Link:** [Click Here](https://discord.com/channels/${interaction.guild.id}/${messageChannelID}/${messageID})`,
+    "description": `**User Reported:** <@${messageAuthorID}>\n**Tribe:** ${tribe}\n**Reported by:** <@${interaction.user.id}>\n**Message Link:** [Click Here](https://discord.com/channels/${interaction.guild.id}/${messageChannelID}/${messageID})`,
+    "fields": [
+      {
+        "name": "Message Content: ",
+        "value": "```"+`${messageContent}`+"```"
+      }
+    ],
     "color": 16711680, // 16711680 = red for moderation logs | 4690898 = pink/purplish for other commands
     "timestamp": new Date(),
     "footer": {
