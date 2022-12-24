@@ -45,7 +45,6 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
     if (tribedata.tribes[commonRoles[i]]) {
       tribe = commonRoles[i];
       tribeCategory = tribedata.tribes[tribe].Category;
-      tribeRoleID = tribedata.tribes[tribe].RoleID;
       break;
     }
   }
@@ -59,7 +58,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   // Send message to alert channel
   const embed = {
     "title": `Alert -  ${tribe}`,
-    "description": `**User Reported:** <@${messageAuthorID}>\n**Tribe:** ${tribe}\n**Reported by:** <@${interaction.user.id}>\n**Message Link:** [Click Here](https://discord.com/channels/${interaction.guild.id}/${messageChannelID}/${messageID})`,
+    "description": `**User Reported:** <@${messageAuthorID}>\n**Tribe:** ${tribe}\n**Reported by:** <@${interaction.user.id}>`,
     "fields": [
       {
         "name": "Message Content: ",
