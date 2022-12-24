@@ -10,7 +10,13 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
 
-  messageID = interaction.options.get("message").value; // Message ID
+  messageID = interaction.options.get("message").value; // Message ID or Message Link from executor
+
+  // Check if messageID is a link and get message ID from link
+  if (messageID.includes("://")) {
+    messageID = messageID.split("/").pop(); // Get message ID from link
+  }
+
   // Get message object.
   message = await interaction.channel.messages.fetch(messageID);
   messageContent = message.content; // Message content
@@ -31,7 +37,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 
   // Find common roles between users
   commonRoles = victimRoles.filter(value => executorRoles.includes(value));
-    
+
   // Check if any of common roles are in tribedata.
   var tribe = "";
   var tribeCategory = "";
@@ -81,7 +87,7 @@ exports.commandData = {
 
     {
       name:"message",
-      description:"Message ID of the user you want to alert the mods of.",
+      description:"Enter the message link or ID of the user you want to alert the mods of.",
       type:3,
       required:true
     }
