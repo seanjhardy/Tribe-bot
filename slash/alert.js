@@ -25,7 +25,6 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   messageChannelID = message.channel.id; // Message channel ID
   messageCategoryID = message.channel.parent.id; // Message category ID
 
-  alertChannel = process.env.ALERT_CHANNEL; // Alert channel ID
 
   reporterID = interaction.user.id; // Reporter ID
   
@@ -57,25 +56,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
     return;
   }
 
-  // Send message to alert channel
-  const embed = {
-    "title": `Alert -  ${tribe}`,
-    "description": `**User Reported:** <@${messageAuthorID}>\n**Tribe:** ${tribe}\n**Reported by:** <@${interaction.user.id}>\n**Message Link:** [Click Here](https://discord.com/channels/${interaction.guild.id}/${messageChannelID}/${messageID})`,
-    "fields": [
-      {
-        "name": "Message Content: ",
-        "value": "```"+`${messageContent}`+"```"
-      }
-    ],
-    "color": 16711680, // 16711680 = red for moderation logs | 4690898 = pink/purplish for other commands
-    "timestamp": new Date(),
-    "footer": {
-      "icon_url": "https://cdn.discordapp.com/icons/811270187843977236/5a7ac443be8f92675def615e470ac4a6.webp?size=96",
-      "text": "Hamza's Cult"
-    }
-  };
-
-  client.channels.cache.get(process.env.alertChannel).send({ "content": `<@&${tribeRoleID}>`, embeds: [embed] });
+  // Reply to messageID in the channel the command was executed in.
 
   return interaction.reply({ content: "Alerted the mods of the message. Thank you for your report.", ephemeral: true });
 };
