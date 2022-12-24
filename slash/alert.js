@@ -58,7 +58,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   // Send message to alert channel
   const embed = {
     "title": `Alert -  ${tribe}`,
-    "description": `**User Reported:** <@${messageAuthorID}>\n**Tribe:** ${tribe}\n**Reported by:** <@${interaction.user.id}>`,
+    "description": `**User Reported:** <@${messageAuthorID}>\n**Tribe:** ${tribe}\n**Reported by:** <@${interaction.user.id}>\n**Message ID: **${messageID}`,
     "fields": [
       {
         "name": "Message Content: ",
