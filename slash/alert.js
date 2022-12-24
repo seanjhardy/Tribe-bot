@@ -71,7 +71,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 
   client.channels.cache.get(process.env.alertChannel).send({ "content": `<@&${tribeRoleID}>`, embeds: [embed] });
 
-  return interaction.reply("Alerted the mods of the message. Thank you for your report.")
+  return interaction.reply({ content: "Alerted the mods of the message. Thank you for your report.", ephemeral: true });
 };
 
 exports.commandData = {
