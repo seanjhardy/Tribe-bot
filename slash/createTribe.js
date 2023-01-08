@@ -40,7 +40,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
           allow: [Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES, Permissions.FLAGS.SEND_MESSAGES_IN_THREADS],
         },
         {
-          id: process.env.ChiefRole,
+          id: process.env.chiefRole,
           allow: [Permissions.FLAGS.CREATE_PUBLIC_THREADS, Permissions.FLAGS.EMBED_LINKS, Permissions.FLAGS.ATTACH_FILES,
             Permissions.FLAGS.MENTION_EVERYONE,Permissions.FLAGS.MANAGE_MESSAGES ,Permissions.FLAGS.MANAGE_THREADS ],
         },
@@ -59,7 +59,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
           allow: [Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES, Permissions.FLAGS.SEND_MESSAGES_IN_THREADS],
         },
         {
-          id: process.env.ChiefRole,
+          id: process.env.chiefRole,
           allow: [Permissions.FLAGS.CREATE_PUBLIC_THREADS, Permissions.FLAGS.EMBED_LINKS, Permissions.FLAGS.ATTACH_FILES,
             Permissions.FLAGS.MENTION_EVERYONE,Permissions.FLAGS.MANAGE_MESSAGES ,Permissions.FLAGS.MANAGE_THREADS ],
         },
