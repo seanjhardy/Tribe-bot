@@ -7,6 +7,9 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   // JSON file
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
+  
+  // fetch cache
+  await interaction.guild.members.fetch();
 
   // Check if executor has chief role.
     // Get user ID and their tribe.
@@ -14,7 +17,6 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
     userPromoteID = userPromote.replace(/\D/g, "");
     // userRoles containing all of user's role names in an array.
     userRoles = interaction.guild.members.cache.get(userPromoteID).roles.cache.map(r => r.name);
-
     // Get the roles of executor.
     executorRoles = interaction.member.roles.cache.map(r => r.name);
 
