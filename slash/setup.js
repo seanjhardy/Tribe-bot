@@ -15,6 +15,7 @@ const {
 } = require("../modules/functions");
 const wait = require("node:timers/promises").setTimeout;
 
+
 exports.run = async (client, interaction) => {
   await interaction.reply({ content: "Successfully Created", ephemeral: true });
   const embed = new MessageEmbed()
@@ -38,6 +39,37 @@ exports.run = async (client, interaction) => {
   await interaction.guild.channels.fetch(channelid).then(async (channelo) => {
     channelo.send({ embeds: [embed], components: [row] });
   });
+
+  const CronJob = require("cron").CronJob;
+  let memberCounts = [];
+
+  const update = async () => {
+    await interaction.guild.members.fetch();
+    await interaction.guild.roles.fetch(); //updates cache
+    const tribedataraw = await ReadData();
+    const tribedata = JSON.parse(tribedataraw);
+    const roleids = Object.entries(tribedata.tribes).map(
+      ([key, value]) => value.RoleID
+    );
+    console.log("TEST")
+    memberCounts = await Promise.all(
+      roleids.map(async (roleid) => {
+        const role = await interaction.guild.roles.cache.get(roleid);
+        const memberCount = role.members.size;
+
+        return {
+          id: role.id,
+          name: role.name,
+          memberCount: memberCount,
+        };
+      })
+    );
+    console.log(memberCounts);
+  };
+  await update();
+  setInterval(async () => {
+    update();
+  }, 5000*60);
 
   client.on("interactionCreate", async i => {
     if (!i.isButton()) return;
@@ -74,7 +106,6 @@ exports.run = async (client, interaction) => {
       });
     }
 
-    //Gets a headcount for every tribe
     const roleids = Object.entries(tribedata.tribes).map(
       ([key, value]) => value.RoleID
     );
@@ -84,22 +115,6 @@ exports.run = async (client, interaction) => {
         ephemeral: true,
       });
     }
-    const members = await i.guild.members.fetch();
-    const roles = await i.guild.roles.fetch(); //updates cache
-    const membercounts = await Promise.all(
-      roleids.map(async (roleid) => {
-        const role = await i.guild.roles.cache.get(roleid);
-        const memberCount = role.members.size;
-
-        const tribeOb = {
-          id: role.id,
-          name: role.name,
-          memberCount: memberCount,
-        };
-
-        return tribeOb;
-      })
-    );
 
     //Gets all of the users roles
     const userRolesMap = i.member.roles.cache;
@@ -107,7 +122,7 @@ exports.run = async (client, interaction) => {
     let currentTribe;
     //Checks each user role for a match in the tribe store
     userRolesArray.forEach((roleID, arrayIndex) => {
-      membercounts.forEach((tribeObj, arrayIndex) => {
+      memberCounts.forEach((tribeObj, arrayIndex) => {
         if (roleID === tribeObj.id) currentTribe = tribeObj.name;
       });
     });
@@ -124,14 +139,14 @@ exports.run = async (client, interaction) => {
     let lowestTribe = Number.POSITIVE_INFINITY;
     let highestTribe = Number.NEGATIVE_INFINITY;
     let tmp;
-    for (let i = membercounts.length - 1; i >= 0; i--) {
-      tmp = membercounts[i].memberCount;
+    for (let i = memberCounts.length - 1; i >= 0; i--) {
+      tmp = memberCounts[i].memberCount;
       if (tmp < lowestTribe) lowestTribe = tmp;
       if (tmp > highestTribe) highestTribe = tmp;
     }
 
     //Gets the tribe(s) with the lowest member count
-    const lowestTribeArray = membercounts.filter((tribe) => {
+    const lowestTribeArray = memberCounts.filter((tribe) => {
       return tribe.memberCount === lowestTribe;
     });
 
@@ -148,6 +163,13 @@ exports.run = async (client, interaction) => {
     );
     const selectedTribe = lowestTribeArray[randomTribeArrIndex];
     await i.member.roles.add(selectedTribe.id);
+    console.log(memberCounts)
+
+    const tribe = memberCounts.find(object => object.id === 2);
+    if (tribe) {
+      tribe.memberCount += 1;
+    }
+    console.log(memberCounts)
     return await i.editReply({
       content: `You've joined the ${selectedTribe.name} tribe!`,
       ephemeral: true,
