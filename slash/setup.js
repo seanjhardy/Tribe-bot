@@ -39,21 +39,17 @@ exports.run = async (client, interaction) => {
     channelo.send({ embeds: [embed], components: [row] });
   });
 
-  const filter = (i) => i.customId === "TribeBut";
-  const collector = interaction.channel.createMessageComponentCollector({
-    filter,
-  });
-
-  collector.on("collect", async (i) => {
+  client.on("interactionCreate", async i => {
+    if (!i.isButton()) return;
     console.log(`${new Date().toISOString()} - Interaction Code Begins`);
     console.log(`${i.createdAt.toISOString()} - Interaction Created At`);
     console.log(`${new Date().toISOString()} - About to defer`);
-    await i.deferReply({ephemeral:true});
+    await i.deferReply({ephemeral: true});
     const tribedataraw = await ReadData();
     const tribedata = JSON.parse(tribedataraw);
 
     //Checks if user is in a cooldown from joining tribes
-    let tribeCooldown = await GetTribeCooldown(i.user.id);
+    const tribeCooldown = await GetTribeCooldown(i.user.id);
     if (tribeCooldown) {
       const currentTimestamp = Math.floor(Date.now() / 1000);
       const releaseTime =
@@ -70,10 +66,10 @@ exports.run = async (client, interaction) => {
     }
 
     //Checks if user is banned from joining a tribe
-    let userBanishArray = tribedata.banishes.filter(x => x.userID.includes(i.user.id));
+    const userBanishArray = tribedata.banishes.filter(x => x.userID.includes(i.user.id));
     if (userBanishArray.length >= 3) {
       return await i.editReply({
-        content: `You are banned from joining tribes at this time!`,
+        content: "You are banned from joining tribes at this time!",
         ephemeral: true,
       });
     }
@@ -135,13 +131,13 @@ exports.run = async (client, interaction) => {
     }
 
     //Gets the tribe(s) with the lowest member count
-    let lowestTribeArray = membercounts.filter((tribe) => {
+    const lowestTribeArray = membercounts.filter((tribe) => {
       return tribe.memberCount === lowestTribe;
     });
 
     if (lowestTribe >= tribedata.limit) {
       return await i.editReply({
-        content: `The tribe limit has been reached`,
+        content: "The tribe limit has been reached",
         ephemeral: true,
       });
     }
@@ -158,7 +154,6 @@ exports.run = async (client, interaction) => {
     });
     //END OF COMMAND
   });
-  collector.on("end", (collected) => {});
 };
 
 
@@ -172,7 +167,7 @@ exports.commandData = {
 // Otherwise false is global.
 exports.conf = {
   permLevel: "Cult Admin",
-guildOnly: true
+  guildOnly: true
 
 };
 //Tested
