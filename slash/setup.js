@@ -162,9 +162,9 @@ exports.run = async (client, interaction) => {
     const selectedTribe = lowestTribeArray[randomTribeArrIndex];
     await i.member.roles.add(selectedTribe.id);
 
-    const tribe = memberCounts.find(object => object.id === 2);
-    const index = memberCounts.indexOf(tribe)
+    const tribe = memberCounts.find(object => object.id === selectedTribe.id);
     if (tribe) {
+      const index = memberCounts.indexOf(tribe)
       memberCounts[index].memberCount += 1;
     }
     return await i.editReply({
