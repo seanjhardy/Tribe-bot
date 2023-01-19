@@ -40,7 +40,6 @@ exports.run = async (client, interaction) => {
     channelo.send({ embeds: [embed], components: [row] });
   });
 
-  const CronJob = require("cron").CronJob;
   let memberCounts = [];
 
   const update = async () => {
