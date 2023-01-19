@@ -50,7 +50,6 @@ exports.run = async (client, interaction) => {
     const roleids = Object.entries(tribedata.tribes).map(
       ([key, value]) => value.RoleID
     );
-    console.log("TEST")
     memberCounts = await Promise.all(
       roleids.map(async (roleid) => {
         const role = await interaction.guild.roles.cache.get(roleid);
@@ -162,13 +161,12 @@ exports.run = async (client, interaction) => {
     );
     const selectedTribe = lowestTribeArray[randomTribeArrIndex];
     await i.member.roles.add(selectedTribe.id);
-    console.log(memberCounts)
 
     const tribe = memberCounts.find(object => object.id === 2);
+    const index = memberCounts.indexOf(tribe)
     if (tribe) {
-      tribe.memberCount += 1;
+      memberCounts[index].memberCount += 1;
     }
-    console.log(memberCounts)
     return await i.editReply({
       content: `You've joined the ${selectedTribe.name} tribe!`,
       ephemeral: true,
