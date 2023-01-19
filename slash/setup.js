@@ -25,7 +25,6 @@ exports.run = async (client, interaction) => {
         "You will be randomly assigned a tribe of around 150 members, but **BEWARE**, tribe leaders and mods " +
         "have the power to __silence__ and __banish__ you from the tribe, and you will need to wait a week before being able to join another."
     )
-
     .setImage(
       "https://media.discordapp.net/attachments/1051261955882623008/1051878553899245638/tribes.png"
     );
@@ -46,7 +45,9 @@ exports.run = async (client, interaction) => {
   });
 
   collector.on("collect", async (i) => {
-    //i.user.id to get user id
+    console.log(`${new Date().toISOString()} - Interaction Code Begins`);
+    console.log(`${i.createdAt.toISOString()} - Interaction Created At`);
+    console.log(`${new Date().toISOString()} - About to defer`);
     await i.deferReply({ephemeral:true});
     const tribedataraw = await ReadData();
     const tribedata = JSON.parse(tribedataraw);
