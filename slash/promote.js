@@ -36,11 +36,11 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
       return interaction.reply(`${userPromote} is not in your tribe.`);
     } else {
       // Check if user with user ID already has tribeMod role.
-      if (interaction.guild.members.cache.get(userPromoteID).roles.cache.has(process.env.TribeModRole)) {
+      if (interaction.guild.members.cache.get(userPromoteID).roles.cache.has(process.env.tribeModRole)) {
         return interaction.reply(`${userPromote} already has tribe mod role.`);
       } else {
         // Add tribe mod role from user.
-        interaction.guild.members.cache.get(userPromoteID).roles.add(process.env.TribeModRole);
+        interaction.guild.members.cache.get(userPromoteID).roles.add(process.env.tribeModRole);
 
         // Send log as embed to env log channel.
         const embed = {
