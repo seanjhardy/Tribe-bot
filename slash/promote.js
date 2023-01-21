@@ -2,6 +2,7 @@ const { ReadData, StoreTribe } = require("../modules/functions");
 require("dotenv").config();
 
 exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
+  await interaction.deferReply({ephemeral:true});
   // JSON file
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
@@ -31,11 +32,11 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   }
   // Check if user is in the tribe.
   if (tribe === "") {
-    return interaction.reply(`${userPromote} is not in your tribe.`);
+    return interaction.editReply(`${userPromote} is not in your tribe.`);
   } else {
     // Check if user with user ID already has tribeMod role.
     if (interaction.guild.members.cache.get(userPromoteID).roles.cache.has(process.env.tribeModRole)) {
-      return interaction.reply(`${userPromote} already has tribe mod role.`);
+      return interaction.editReply(`${userPromote} already has tribe mod role.`);
     } else {
       // Add tribe mod role from user.
       interaction.guild.members.cache.get(userPromoteID).roles.add(process.env.tribeModRole);
@@ -54,7 +55,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
       client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
 
       // Reply to user.
-      return interaction.reply(`${userPromote} has been promoted to tribe moderator.`);
+      return interaction.editReply(`${userPromote} has been promoted to tribe moderator.`);
     }
   }
 };

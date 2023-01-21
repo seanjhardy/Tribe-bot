@@ -4,6 +4,7 @@ const { ReadData, StoreTribe } = require("../modules/functions");
 require("dotenv").config();
 
 exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
+  await interaction.deferReply({ephemeral:true});
   // JSON file
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
@@ -32,7 +33,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   }
   // Check if user is in the tribe.
   if (tribe === "") {
-    return interaction.reply(`${userDemote} is not in your tribe.`);
+    return interaction.editReply(`${userDemote} is not in your tribe.`);
   } else {
     // Check if user with user ID already has tribeMod role.
     if (interaction.guild.members.cache.get(userDemoteID).roles.cache.has(process.env.tribeModRole)) {
@@ -52,10 +53,10 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
       client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
   
       // Remove tribe mod role from user.
-      return interaction.reply(`${userDemote} has been demoted from tribe mod.`);
+      return interaction.editReply(`${userDemote} has been demoted from tribe mod.`);
     } else {
       // Remove tribe mod role from user.
-      return interaction.reply(`${userDemote} doesn't have tribe mod role.`);
+      return interaction.editReply(`${userDemote} doesn't have tribe mod role.`);
     }
   }
 };
