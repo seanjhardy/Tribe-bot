@@ -8,15 +8,6 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
 
-  // Get the roles of executor.
-  const executorRoles = interaction.member.roles.cache.map(r => r.name);
-
-  // Check if executor has admin role.
-  if (!executorRoles.includes("Tribe Chief")) {
-    interaction.editReply({ content: "You do not have permission to do this.", ephemeral: true });
-    return;
-  }
-
   // Check if tribe exists in tribedata.
   console.log(tribedata)
   const tribe = interaction.options.get("tribe").value;
@@ -50,7 +41,7 @@ exports.commandData = {
 // Set guildOnly to true if you want it to be available on guilds only.
 // Otherwise false is global.
 exports.conf = {
-  permLevel: "Tribe Chief",
+  permLevel: "Cult Admin",
   guildOnly: true
 };
 //Tested
