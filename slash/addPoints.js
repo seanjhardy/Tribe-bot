@@ -24,9 +24,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   }
 
   // Add points to tribe.
-  console.log(tribedata.tribes[tribe].Points);
   tribedata.tribes[tribe].Points += points;
-  console.log(tribedata.tribes[tribe].Points);
 };
 
 exports.commandData = {
