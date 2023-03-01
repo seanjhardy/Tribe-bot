@@ -3,7 +3,7 @@ const { ReadData, StoreTribe } = require("../modules/functions");
 require("dotenv").config();
 
 exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
-  await interaction.deferReply();
+  await interaction.deferReply({ ephemeral: true });
   // JSON file
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
@@ -23,8 +23,10 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
     return;
   }
 
-  tribedata.tribes[tribe].points += points;
-  interaction.editReply({ content: `Added ${points} points to ${tribe}.` });
+  // Add points to tribe.
+  console.log(tribedata.tribes[tribe].Points);
+  tribedata.tribes[tribe].Points += points;
+  console.log(tribedata.tribes[tribe].Points);
 };
 
 exports.commandData = {
