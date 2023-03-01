@@ -3,18 +3,28 @@ const { ReadData, StoreTribe } = require("../modules/functions");
 require("dotenv").config();
 
 exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
-  await interaction.deferReply({ephemeral:true});
+  await interaction.deferReply();
   // JSON file
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
 
   // Check if tribe exists in tribedata.
-  console.log(tribedata)
   const tribe = interaction.options.get("tribe").value;
   if (!tribedata.tribes[tribe]) {
     interaction.editReply({ content: "This tribe does not exist.", ephemeral: true });
     return;
   }
+
+  var points = interaction.options.get("points").value;
+
+  // If points is negative, return.
+  if (points < 0) {
+    interaction.editReply({ content: "You can't add negative points.", ephemeral: true });
+    return;
+  }
+
+  tribedata.tribes[tribe].points += points;
+  interaction.editReply({ content: `Added ${points} points to ${tribe}.` });
 };
 
 exports.commandData = {
