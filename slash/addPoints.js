@@ -25,6 +25,31 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 
   // Add points to tribe.
   tribedata.tribes[tribe].Points += points;
+
+  // Send log to alert channel
+  const embed = {
+    "title": `Alert -  ${tribe}`,
+    "description": `**User Reported:** <@${messageAuthorID}>\n**Tribe:** ${tribe}\n**Reported by:** <@${interaction.user.id}>\n**Message ID: **${messageID}`,
+    "fields": [
+      {
+        "name": "Message Content: ",
+        "value": "```"+`${messageContent}`+"```"
+      }
+    ],
+    "color": 4690898, // 16711680 = red for moderation logs | 4690898 = pink/purplish for other commands
+    "timestamp": new Date(),
+    "footer": {
+      "icon_url": "https://cdn.discordapp.com/icons/811270187843977236/5a7ac443be8f92675def615e470ac4a6.webp?size=96",
+      "text": "Hamza's Cult"
+    }
+  };
+
+  // Send message to alert channel
+  const alertChannel = client.channels.cache.get(process.env.ALERT_CHANNEL_ID);
+  alertChannel.send({ embeds: [embed] });
+
+  // Return success message.
+  interaction.editReply({ content: `Added ${points} points to ${tribe}.`, ephemeral: true });
 };
 
 exports.commandData = {
