@@ -28,8 +28,8 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 
   // Send log to alert channel
   const embed = {
-    "title": `Added Points -  ${tribe}`,
-    "description": `**Tribe:** ${tribe}\n**Number of points:** ${points}\n**Added by:** <@${interaction.user.id}>`,
+    "title": `addPoints -  ${tribe}`,
+    "description": `**Tribe:** ${tribe}\n**Points added:** ${points}\n**Added by:** <@${interaction.user.id}>`,
     "color": 4690898, // 16711680 = red for moderation logs | 4690898 = pink/purplish for other commands
     "timestamp": new Date(),
     "footer": {
@@ -42,7 +42,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
 
   // Return success message.
-  interaction.editReply({ content: `Added ${points} points to ${tribe}.`, ephemeral: true });
+  interaction.editReply({ content: `Added ${points} point[s] to **${tribe}**.`, ephemeral: true });
 };
 
 exports.commandData = {
