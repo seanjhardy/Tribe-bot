@@ -39,8 +39,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   };
 
   // Send message to alert channel
-  const alertChannel = client.channels.cache.get(process.env.ALERT_CHANNEL_ID);
-  alertChannel.reply({ embeds: [embed] });
+  client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
 
   // Return success message.
   interaction.editReply({ content: `Added ${points} points to ${tribe}.`, ephemeral: true });
