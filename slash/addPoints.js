@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-const { ReadData, StoreTribe } = require("../modules/functions");
+const { ReadData, AddPoints } = require("../modules/functions");
 require("dotenv").config();
 
 exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
@@ -24,7 +24,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   }
 
   // Add points to tribe.
-  tribedata.tribes[tribe].Points += points;
+  await AddPoints(tribe, points);
 
   // Send log to alert channel
   const embed = {
