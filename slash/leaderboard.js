@@ -8,16 +8,11 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
 
-  // Leaderboard command
+  // Get top 10 tribes with the most points.
+  var top10 = Object.keys(tribedata.tribes).sort((a, b) => tribedata.tribes[b].Points - tribedata.tribes[a].Points).slice(0, 10);
+  console.log(top10)
 
   // No log needed for this command.
-  };
-
-  // Send message to alert channel
-  client.channels.cache.get(process.env.LogChannel).send({ embeds: [embed] });
-
-  // Return success message.
-  interaction.editReply({ content: `Removed ${points} point[s] to **${tribe}**.`, ephemeral: true });
 };
 
 exports.commandData = {
