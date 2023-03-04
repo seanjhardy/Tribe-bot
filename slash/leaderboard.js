@@ -25,9 +25,9 @@ exports.run = async (client, interaction) => {
   }
   // Create embed
   const embed = {
-    "title": "Banish",
+    "title": "Leaderboard",
     "description": `${lbLine(0)}` + `${lbLine(1)}` + `${lbLine(2)}` + `${lbLine(3)}` + `${lbLine(4)}` + `${lbLine(5)}` + `${lbLine(6)}` + `${lbLine(7)}` + `${lbLine(8)}` + `${lbLine(9)}`,
-    "color": 16711680, // 16711680 = red for moderation logs | 4690898 = pink/purplish for other commands
+    "color": 4690898, // 16711680 = red for moderation logs | 4690898 = pink/purplish for other commands
     "timestamp": new Date(),
     "footer": {
       "icon_url": "https://cdn.discordapp.com/icons/811270187843977236/5a7ac443be8f92675def615e470ac4a6.webp?size=96",
