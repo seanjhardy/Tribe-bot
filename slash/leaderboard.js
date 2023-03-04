@@ -2,7 +2,8 @@
 const { ReadData } = require("../modules/functions");
 require("dotenv").config();
 
-exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
+exports.run = async (client, interaction) => {
+  // eslint-disable-line no-unused-vars
   // JSON file
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
@@ -17,14 +18,15 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 
 
   // Create function to conntattonate string
-  function concatString(index) {
+  function lbLine(index) {
+    // If index position is undefined, return nothing
+    if (sortedKeys[index] === undefined) return "";
     return `${index + 1}. ${sortedKeys[index]} - **${tribes[sortedKeys[index]].Points} points**\n`;
   }
-  console.log(sortedKeys)
   // Create embed
   const embed = {
     "title": "Banish",
-    "description": `🥇1. ${sortedKeys[0]} - **${tribes[sortedKeys[0]].Points} points**` + `🥈2. ${sortedKeys[1]} - **${tribes[sortedKeys[1]].Points} points**`,
+    "description": `${lbLine(0)}` + `${lbLine(1)}` + `${lbLine(2)}` + `${lbLine(3)}` + `${lbLine(4)}` + `${lbLine(5)}` + `${lbLine(6)}` + `${lbLine(7)}` + `${lbLine(8)}` + `${lbLine(9)}`,
     "color": 16711680, // 16711680 = red for moderation logs | 4690898 = pink/purplish for other commands
     "timestamp": new Date(),
     "footer": {
@@ -34,7 +36,6 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
   };
   // Send leaderboard
   interaction.reply({ embeds: [embed] });
-
 };
 
 exports.commandData = {
@@ -49,3 +50,5 @@ exports.conf = {
   permLevel: "User",
   guildOnly: true
 };
+
+// Tested and working as of 10/10/2021
