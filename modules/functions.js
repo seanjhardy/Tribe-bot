@@ -213,7 +213,7 @@ async function AddPoints(Name, amount)
 {
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
-  var tribe = tribedata[Name]
+  var tribe = tribedata.tribes[Name]
   tribe.Points += amount;
   await WriteData(JSON.stringify(tribedata));
 }
@@ -221,7 +221,7 @@ async function MinusPoints(Name, amount)
 {
   var tribedataraw = await ReadData();
   var tribedata = JSON.parse(tribedataraw);
-  var tribe = tribedata[Name]
+  var tribe = tribedata.tribes[Name]
   tribe.Points -= amount;
   await WriteData(JSON.stringify(tribedata));
 }
